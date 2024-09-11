@@ -1,32 +1,35 @@
 /**
  * TestRail API binding for Java (API v2, available since TestRail 3.0)
  * Updated for TestRail 5.7
- *
  * Learn more:
- *
  * http://docs.gurock.com/testrail-api2/start
  * http://docs.gurock.com/testrail-api2/accessing
- *
  * Copyright Gurock Software GmbH. See license.md for details.
  */
  
 package framework.integrations.testrail;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import framework.exception.testrail.APIException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class APIClient
 {
 	private String m_user;
 	private String m_password;
-	private String m_url;
+	private final String m_url;
 
 	public APIClient(String base_url)
 	{
@@ -40,7 +43,6 @@ public class APIClient
 
 	/**
 	 * Get/Set User
-	 *
 	 * Returns/sets the user used for authenticating the API requests.
 	 */
 	public String getUser()
@@ -55,7 +57,6 @@ public class APIClient
 
 	/**
 	 * Get/Set Password
-	 *
 	 * Returns/sets the password used for authenticating the API requests.
 	 */
 	public String getPassword()
@@ -70,25 +71,19 @@ public class APIClient
 
 	/**
 	 * Send Get
-	 *
 	 * Issues a GET request (read) against the API and returns the result
 	 * (as Object, see below).
-	 *
 	 * Arguments:
-	 *
 	 * uri                  The API method to call including parameters
 	 *                      (e.g. get_case/1)
-	 *
 	 * Returns the parsed JSON response as standard object which can
 	 * either be an instance of JSONObject or JSONArray (depending on the
 	 * API method). In most cases, this returns a JSONObject instance which
 	 * is basically the same as java.util.Map.
-	 * 
 	 * If 'get_attachment/:attachment_id', returns a String
 	 */
 	public Object sendGet(String uri, String data)
-		throws MalformedURLException, IOException, APIException
-	{
+			throws IOException, APIException, IllegalAccessException {
 		return this.sendRequest("GET", uri, data);
 	}
 	
@@ -97,38 +92,36 @@ public class APIClient
 		return (JSONObject) this.sendRequest("GET", uri, null);
 	} catch (IOException e){
 		throw  new RuntimeException(e);
-	}
-	}
+	} catch (IllegalAccessException e) {
+        throw new RuntimeException(e);
+    }
+    }
 
 	/**
 	 * Send POST
-	 *
 	 * Issues a POST request (write) against the API and returns the result
 	 * (as Object, see below).
-	 *
 	 * Arguments:
-	 *
 	 * uri                  The API method to call including parameters
 	 *                      (e.g. add_case/1)
 	 * data                 The data to submit as part of the request (e.g.,
 	 *                      a map)
 	 *                      If adding an attachment, must be the path
 	 *                      to the file
-	 *
 	 * Returns the parsed JSON response as standard object which can
 	 * either be an instance of JSONObject or JSONArray (depending on the
 	 * API method). In most cases, this returns a JSONObject instance which
 	 * is basically the same as java.util.Map.
 	 */
-	public Object sendPost(String uri, Object data)
-		throws MalformedURLException, IOException, APIException
-	{
-		return this.sendRequest("POST", uri, data);
+	public JSONObject sendPost(String uri, Object data) {
+		try {
+			return (JSONObject) this.sendRequest("POST", uri, data);
+		}catch (IOException | IllegalAccessException e){
+			throw new RuntimeException(e);
+		}
 	}
 	
-	private Object sendRequest(String method, String uri, Object data)
-		throws MalformedURLException, IOException, APIException
-	{
+	private Object sendRequest(String method, String uri, Object data) throws IOException, APIException, IllegalAccessException {
 		URL url = new URL(this.m_url + uri);
 		// Create the connection object and set the required HTTP method
 		// (GET/POST) and headers (content type and basic auth).
@@ -163,7 +156,7 @@ public class APIClient
 					bodyWriter.flush();
 					
 					//Read file into request
-					InputStream istreamFile = new FileInputStream(uploadFile);
+					InputStream istreamFile = Files.newInputStream(uploadFile.toPath());
 					int bytesRead;
 					byte[] dataBuffer = new byte[1024];
 					while ((bytesRead = istreamFile.read(dataBuffer)) != -1)
@@ -185,7 +178,13 @@ public class APIClient
 				else	// Not an attachment
 				{
 					conn.addRequestProperty("Content-Type", "application/json");
-					JSONObject jsonObject = new JSONObject(data);
+
+
+					ObjectMapper objectMapper = new ObjectMapper();
+					String jsonString = objectMapper.writeValueAsString(data);
+
+					// Convert JSON string to JSONObject
+					JSONObject jsonObject = new JSONObject(jsonString);
 					byte[] block = jsonObject.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
 
 
@@ -226,7 +225,8 @@ public class APIClient
         // If 'get_attachment' (not 'get_attachments') returned valid status code, save the file
         if ((istream != null) 
 	    && (uri.startsWith("get_attachment/")))
-    	{      	
+    	{
+            assert data != null;
             FileOutputStream outputStream = new FileOutputStream((String)data);
  
             int bytesRead = 0;
@@ -243,30 +243,30 @@ public class APIClient
         	
         // Not an attachment received
 		// Read the response body, if any, and deserialize it from JSON.
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		if (istream != null)
 		{
 			BufferedReader reader = new BufferedReader(
 				new InputStreamReader(
 					istream,
-					"UTF-8"
+                        StandardCharsets.UTF_8
 				)
 			);
 		
 			String line;
 			while ((line = reader.readLine()) != null)
 			{
-				text += line;
-				text += System.getProperty("line.separator");
+				text.append(line);
+				text.append(System.lineSeparator());
 			}
 			
 			reader.close();
 		}
 		
-		Object result;
-		if (!text.equals(""))
+		JSONObject result;
+		if (!text.toString().isEmpty())
 		{
-			result = new JSONObject(text);
+			result = new JSONObject(text.toString());
 		}
 		else 
 		{
@@ -279,16 +279,12 @@ public class APIClient
 		if (status != 200)
 		{
 			String error = "No additional error message received";
-			if (result != null && result instanceof JSONObject)
-			{
-				JSONObject obj = (JSONObject) result;
-				if (obj.has("error"))
-				{
-					error = '"' + (String) obj.get("error") + '"';
-				}
-			}
-			
-			throw new APIException(
+            if (result.has("error"))
+            {
+                error = '"' + (String) result.get("error") + '"';
+            }
+
+            throw new APIException(
 				"TestRail API returned HTTP " + status +
 				"(" + error + ")"
 			);
@@ -310,4 +306,5 @@ public class APIClient
 		
 		return "";
 	}
+
 }

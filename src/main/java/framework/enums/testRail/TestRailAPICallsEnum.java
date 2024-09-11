@@ -5,7 +5,9 @@ import java.util.Map;
 
 public enum TestRailAPICallsEnum {
     GET_CASE("get_case/"),
-    ADD_RESULT("add_result/");
+    GET_TESTS("get_tests/"),
+    ADD_RESULT("add_result/"),
+    ADD_RESULT_FOR_CASE("add_result_for_case/");
 
     private final String api;
     private static final Map<String, TestRailAPICallsEnum> lookup = new HashMap<>();
