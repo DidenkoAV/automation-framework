@@ -1,4 +1,4 @@
-package framework.enums.testRail;
+package framework.enums.testrail;
 
 import java.util.HashMap;
 import java.util.Map;
