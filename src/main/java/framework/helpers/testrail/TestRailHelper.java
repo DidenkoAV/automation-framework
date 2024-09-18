@@ -1,4 +1,4 @@
-package helpers;
+package framework.helpers.testrail;
 
 import framework.enums.testrail.TestRailCaseStatusEnum;
 import framework.helpers.general.JsonHelper;

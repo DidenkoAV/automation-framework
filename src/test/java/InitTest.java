@@ -1,4 +1,4 @@
-import listener.testrail.TestRailListener;
+import framework.listener.testrail.TestRailListener;
 import org.testng.annotations.Listeners;
 
 @Listeners(TestRailListener.class)

@@ -1,15 +1,23 @@
-package listener.testrail;
+package framework.listener.testrail;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import framework.enums.testrail.TestRailCaseStatusEnum;
-import helpers.TestRailHelper;
-import helpers.AllureHelper;
+import framework.helpers.testrail.TestRailHelper;
+import framework.helpers.allure.AllureHelper;
 import io.qameta.allure.AllureId;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
+
+import static framework.helpers.allure.AllureHelper.getAllureLogs;
+import static framework.helpers.testng.TestNgHelper.getTestRailTestId;
 
 public class TestRailListener implements ITestListener {
 
@@ -48,23 +56,9 @@ public class TestRailListener implements ITestListener {
 
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum) {
         String testRailId = getTestRailTestId(result);
-        List<String> logs = AllureHelper.getAllureLogs(result);
+        List<String> logs = getAllureLogs(result);
 
         String logsString = String.join("\n", logs);
         TestRailHelper.setCaseStatusAndCommentByRunIdAndCaseId(runId, testRailId, statusEnum, logsString);
     }
-
-    public static String getTestRailTestId(ITestResult result) {
-        Method method = result.getMethod().getConstructorOrMethod().getMethod();
-        String testId = null;
-        if (method.isAnnotationPresent(AllureId.class)) {
-            AllureId allureIdAnnotation = method.getAnnotation(AllureId.class);
-            testId = allureIdAnnotation.value();
-            if (testId.isEmpty()) {
-                throw new RuntimeException("AllureId annotation has been set but its value is empty.");
-            }
-        }
-        return testId != null ? testId.replaceAll("\\D+", "") : "";
-    }
-
 }

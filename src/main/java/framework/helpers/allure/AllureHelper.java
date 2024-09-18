@@ -1,4 +1,4 @@
-package helpers;
+package framework.helpers.allure;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static listener.testrail.TestRailListener.getTestRailTestId;
+import static framework.helpers.testng.TestNgHelper.getTestRailTestId;
 
 public class AllureHelper {
     private static final String ALLURE_RESULTS_DIR = "allure-results";
+
 
 
     public static String getAllureIdFromLabels(JsonNode labelsNode) {
@@ -22,6 +23,16 @@ public class AllureHelper {
             }
         }
         return null;
+    }
+
+    public static void collectStepLogs(JsonNode stepsNode, List<String> logs, ObjectMapper mapper){
+        for (JsonNode step : stepsNode) {
+            String stepName = step.path("name").asText();
+            String stepStatus = step.path("status").asText();
+            logs.add(stepName + ": " + stepStatus);
+            JsonNode nestedStepsNode = step.path("steps");
+            collectStepLogs(nestedStepsNode, logs, mapper);
+        }
     }
 
     public static List<String> getAllureLogs(ITestResult result) {
@@ -43,7 +54,7 @@ public class AllureHelper {
 
                 if (allureId != null && allureId.equals(testId)) {
                     JsonNode stepsNode = resultNode.path("steps");
-                    collectStepLogs(stepsNode, logs, mapper);
+                    AllureHelper.collectStepLogs(stepsNode, logs, mapper);
                 }
             }
         } catch (IOException e) {
@@ -51,15 +62,5 @@ public class AllureHelper {
         }
 
         return logs;
-    }
-
-    private static void collectStepLogs(JsonNode stepsNode, List<String> logs, ObjectMapper mapper){
-        for (JsonNode step : stepsNode) {
-            String stepName = step.path("name").asText();
-            String stepStatus = step.path("status").asText();
-            logs.add(stepName + ": " + stepStatus);
-            JsonNode nestedStepsNode = step.path("steps");
-            collectStepLogs(nestedStepsNode, logs, mapper);
-        }
     }
 }
