@@ -3,6 +3,7 @@ package framework.enums.testrail;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public enum TestRailAPICallsEnum {
     GET_CASE("get_case/"),
     GET_TESTS("get_tests/"),

@@ -1,4 +1,4 @@
-package framework.helpers.allure;
+package helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static framework.helpers.testng.TestNgHelper.getTestRailTestId;
+import static helpers.TestNgHelper.getTestRailTestId;
 
 public class AllureHelper {
     private static final String ALLURE_RESULTS_DIR = "allure-results";

@@ -1,4 +1,4 @@
-package framework.helpers.testng;
+package helpers;
 
 import io.qameta.allure.AllureId;
 import org.testng.ITestResult;

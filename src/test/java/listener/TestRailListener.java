@@ -1,23 +1,14 @@
-package framework.listener.testrail;
+package listener;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import framework.enums.testrail.TestRailCaseStatusEnum;
 import framework.helpers.testrail.TestRailHelper;
-import framework.helpers.allure.AllureHelper;
-import io.qameta.allure.AllureId;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
-import static framework.helpers.allure.AllureHelper.getAllureLogs;
-import static framework.helpers.testng.TestNgHelper.getTestRailTestId;
+import static helpers.AllureHelper.getAllureLogs;
+import static helpers.TestNgHelper.getTestRailTestId;
 
 public class TestRailListener implements ITestListener {
 
