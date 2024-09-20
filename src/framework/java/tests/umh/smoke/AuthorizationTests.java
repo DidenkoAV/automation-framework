@@ -1,4 +1,4 @@
-package tests;
+package tests.umh.smoke;
 
 import core.annotations.TestParams;
 import core.helpers.framework.selenium.InitSeleniumTest;
@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class AuthorizationTests extends InitSeleniumTest {
 
-    @TestParams(browser = "chrome", csvPath = "data/login.csv", testId = "T2", scenario = 2)
+    @TestParams(browser = "chrome", csvPath = "data/login.csv", runId = 1, scenario = 2)
     @Test(dataProvider = "csvData", dataProviderClass = DataProviderHelper.class)
     public void login(HashMap<String, String> data) {
         LoginDto loginDto = LoginHelper.setupLoginTdo(data);

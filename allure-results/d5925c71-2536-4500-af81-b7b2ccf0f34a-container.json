@@ -1,0 +1,1 @@
+{"uuid":"d5925c71-2536-4500-af81-b7b2ccf0f34a","name":"tests.umh.smoke.AuthorizationTests","children":["9b11870b-5115-4949-b6c8-95758a25bb35"],"befores":[],"afters":[{"name":"tearDown","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1726804493265,"stop":1726804493360}],"start":1726804489083,"stop":1726804493362}

@@ -1,23 +1,28 @@
 package core.listeners;
 
+import core.annotations.TestParams;
 import core.enums.testrail.TestRailCaseStatusEnum;
+import core.helpers.framework.allure.AllureHelper;
+import core.helpers.framework.general.FileHelper;
 import core.helpers.framework.testrail.TestRailHelper;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import java.io.File;
+import java.lang.reflect.Method;
 import java.util.List;
 
-import static core.helpers.framework.allure.AllureHelper.getAllureLogs;
-import static core.helpers.framework.testng.TestNgHelper.getTestRailTestId;
+import static core.helpers.framework.allure.AllureHelper.ALLURE_RESULTS_DIR;
+
 
 public class TestRailListener implements ITestListener {
-
-    private final String runId = "1"; // Adjust to your TestRail run ID
 
 
     @Override
     public void onStart(ITestContext context) {
-        // Optional: Initialize or reset state if needed
+        FileHelper.deleteDirectory(new File(ALLURE_RESULTS_DIR));
+
     }
 
     @Override
@@ -46,28 +51,31 @@ public class TestRailListener implements ITestListener {
     }
 
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum) {
-        String testRailId = getTestRailTestId(result);
-        List<String> logs = getAllureLogs(result);
+        Method method = result.getMethod().getConstructorOrMethod().getMethod();
+        String classAndMethodPath = getClassAndMethodPath(method);
+        int scenario = getScenarioFromTestParamsAnnotation(method);
+        int runId = getRunIdFromTestParamsAnnotation(method);
 
-        String logsString = formatComments(logs);
-        TestRailHelper.setCaseStatusAndCommentByRunIdAndCaseId(runId, testRailId, statusEnum, logsString);
+        List<String> logs = AllureHelper.getAllureLogs();
+        String logsString = TestRailHelper.formatComments(logs);
+
+        TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
     }
 
-    private static String formatComments(List<String> steps) {
-        StringBuilder formattedComment = new StringBuilder();
 
-        for (String step : steps) {
-            boolean containsAssert = step.toLowerCase().contains("assert");
-            String formattedStep = step.replace("passed", "<span style='color: green;'>passed</span>");
-
-            if (containsAssert) {
-                formattedStep = "<strong>" + formattedStep + "</strong>";
-            }
-
-            formattedComment.append(formattedStep).append("<br>");
-        }
-
-        return formattedComment.toString();
+    private static int getScenarioFromTestParamsAnnotation(Method method) {
+        TestParams testParams = method.getAnnotation(TestParams.class);
+        return testParams != null ? testParams.scenario() : -1;
     }
 
+    private static int getRunIdFromTestParamsAnnotation(Method method) {
+        TestParams testParams = method.getAnnotation(TestParams.class);
+        return testParams != null ? testParams.runId() : -1;
+    }
+
+    private static String getClassAndMethodPath(Method method) {
+        Class<?> declaringClass = method.getDeclaringClass();
+        String methodName = method.getName();
+        return declaringClass.getName() + "." + methodName;
+    }
 }

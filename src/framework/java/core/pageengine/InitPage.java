@@ -1,8 +1,13 @@
 package core.pageengine;
 
+import core.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InitPage {
+    public static final Logger logger = LoggerFactory.getLogger(InitPage.class);
+
     protected WebDriver driver;
     private String      windowHandle;
 

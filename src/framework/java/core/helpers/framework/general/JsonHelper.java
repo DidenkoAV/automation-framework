@@ -3,6 +3,7 @@ package core.helpers.framework.general;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -38,5 +39,15 @@ public class JsonHelper {
     public static boolean jsonHasValue(String key, String json) {
         JSONObject obj = new JSONObject(json);
         return obj.has(key);
+    }
+
+    public static JSONObject convertArrayToObject(JSONArray jsonArray) {
+        JSONObject jsonObject = new JSONObject();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonItem = jsonArray.getJSONObject(i);
+            String key = String.valueOf(jsonItem.getInt("id"));
+            jsonObject.put(key, jsonItem);
+        }
+        return jsonObject;
     }
 }
