@@ -1,4 +1,4 @@
-package core.tdo.testrail;
+package core.dto.testrail;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class CaseDetailsResponseTDO {
+public class CaseDetailsResponseDTO {
     @JsonProperty("id")
     int id;
     @JsonProperty("updated_on")

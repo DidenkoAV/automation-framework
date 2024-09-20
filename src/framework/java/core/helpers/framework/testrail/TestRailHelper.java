@@ -4,8 +4,8 @@ import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.general.JsonHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import core.integrations.testrail.APIClient;
-import core.tdo.testrail.AddResultForCaseResponseTDO;
-import core.tdo.testrail.CaseDetailsResponseTDO;
+import core.dto.testrail.AddResultForCaseResponseDTO;
+import core.dto.testrail.CaseDetailsResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,12 +28,12 @@ public class TestRailHelper {
     }
 
 
-    public static CaseDetailsResponseTDO getCaseDetailsById(String caseId) {
+    public static CaseDetailsResponseDTO getCaseDetailsById(String caseId) {
             JSONObject jsonObject = testRailClient.sendGet(GET_CASE.getApi() + caseId);
-            return JsonHelper.convertResponseToPojo(CaseDetailsResponseTDO.class,jsonObject.toString());
+            return JsonHelper.convertResponseToPojo(CaseDetailsResponseDTO.class,jsonObject.toString());
     }
 
-    public static AddResultForCaseResponseTDO setCaseStatusByRunIdAndCaseId(String runId, String caseId, TestRailCaseStatusEnum statusEnum) {
+    public static AddResultForCaseResponseDTO setCaseStatusByRunIdAndCaseId(String runId, String caseId, TestRailCaseStatusEnum statusEnum) {
 
         if (statusEnum == null) {
             throw new IllegalArgumentException("StatusEnum cannot be null.");
@@ -44,10 +44,10 @@ public class TestRailHelper {
 
         String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
         JSONObject jsonObject = testRailClient.sendPost(apiUrl, data);
-        return JsonHelper.convertResponseToPojo(AddResultForCaseResponseTDO.class,jsonObject.toString());
+        return JsonHelper.convertResponseToPojo(AddResultForCaseResponseDTO.class,jsonObject.toString());
     }
 
-    public static AddResultForCaseResponseTDO setCaseStatusAndCommentByRunIdAndCaseId(String runId, String caseId, TestRailCaseStatusEnum statusEnum, String comment) {
+    public static AddResultForCaseResponseDTO setCaseStatusAndCommentByRunIdAndCaseId(String runId, String caseId, TestRailCaseStatusEnum statusEnum, String comment) {
 
         if (statusEnum == null) {
             throw new RuntimeException("Status cannot be null.");
@@ -59,7 +59,7 @@ public class TestRailHelper {
 
         String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
         JSONObject jsonObject = testRailClient.sendPost(apiUrl, data);
-        return JsonHelper.convertResponseToPojo(AddResultForCaseResponseTDO.class,jsonObject.toString());
+        return JsonHelper.convertResponseToPojo(AddResultForCaseResponseDTO.class,jsonObject.toString());
     }
 
     public static void setStatusToCasesByRunId(String runId,TestRailCaseStatusEnum statusEnum){
@@ -98,9 +98,13 @@ public class TestRailHelper {
         return testsArrayList;
     }
 
+    public static void setCaseStatusAndCommentByScenarioAndMethod(String runId){
+        JSONArray array = getAllTestsByRunId(runId);
+    }
+
     public static void main(String[] args) {
-        //setCaseStatusByRunIdAndCaseId(1,1,TestRailCaseStatusEnum.PASSED, "Changed to retest status");
-        setStatusToCasesByRunId("1", TestRailCaseStatusEnum.PASSED);
+        JSONArray array = getAllTestsByRunId("1");
+        System.out.println(array);
     }
 
 }

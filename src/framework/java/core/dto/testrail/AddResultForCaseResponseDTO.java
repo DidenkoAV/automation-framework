@@ -1,4 +1,4 @@
-package core.tdo.testrail;
+package core.dto.testrail;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class AddResultForCaseResponseTDO {
+public class AddResultForCaseResponseDTO {
     @JsonProperty("attachment_ids")
     ArrayList<Object> attachmentIds;
     @JsonProperty("custom_testrail_bdd_scenario_results")

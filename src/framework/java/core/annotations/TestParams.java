@@ -9,4 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface TestParams {
     String browser();
+    String csvPath();
+    String testId();
+    int scenario();
 }

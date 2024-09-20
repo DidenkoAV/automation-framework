@@ -1,22 +1,24 @@
 package core.helpers.tests.umh;
 
 import core.pages.LoginPage;
-import core.tdo.umh.LoginTdo;
+import core.dto.umh.LoginDto;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 
 import java.util.HashMap;
 
 public class LoginHelper {
-    public static LoginTdo setupLoginTdo(HashMap<String, String> data){
-        LoginTdo loginTdo = new LoginTdo();
-        loginTdo.setCompany(data.get("company"));
-        loginTdo.setUser(data.get("user"));
-        loginTdo.setPassword(data.get("password"));
-        loginTdo.setTitle(data.get("title"));
-        return loginTdo;
+    public static LoginDto setupLoginTdo(HashMap<String, String> data){
+        LoginDto loginDTO = new LoginDto();
+        loginDTO.setCompany(data.get("company"));
+        loginDTO.setUser(data.get("user"));
+        loginDTO.setPassword(data.get("password"));
+        loginDTO.setTitle(data.get("title"));
+        return loginDTO;
 
     }
-    public static void login(WebDriver driver, LoginTdo tdo){
+    @Step("Start to login to UMH")
+    public static void login(WebDriver driver, LoginDto tdo){
         LoginPage loginPage = new LoginPage(driver);
         loginPage.enterCompany(tdo.getCompany());
         loginPage.enterUser(tdo.getUser());

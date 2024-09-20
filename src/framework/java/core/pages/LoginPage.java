@@ -2,6 +2,7 @@ package core.pages;
 
 import core.helpers.framework.selenium.WebDriverHelper;
 import core.pageengine.InitPage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends InitPage {
@@ -14,18 +15,22 @@ public class LoginPage extends InitPage {
         super(driver);
     }
 
+    @Step("Enter company: {company}")
     public void enterCompany(String company){
         WebDriverHelper.enterTextByXpath(driver,company, COMPANY_INPUT);
     }
 
+    @Step("Enter username: {user}")
     public void enterUser(String user){
         WebDriverHelper.enterTextByXpath(driver,user, USERNAME_INPUT);
     }
 
+    @Step("Enter password: {password}")
     public void enterPassword(String password){
         WebDriverHelper.enterTextByXpath(driver,password, PASSWORD_INPUT);
     }
 
+    @Step("Click login button")
     public void clickLoginButton(){
         WebDriverHelper.clickElement(driver, LOGIN_BUTTON);
     }

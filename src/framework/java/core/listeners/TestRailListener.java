@@ -49,7 +49,25 @@ public class TestRailListener implements ITestListener {
         String testRailId = getTestRailTestId(result);
         List<String> logs = getAllureLogs(result);
 
-        String logsString = String.join("\n", logs);
+        String logsString = formatComments(logs);
         TestRailHelper.setCaseStatusAndCommentByRunIdAndCaseId(runId, testRailId, statusEnum, logsString);
     }
+
+    private static String formatComments(List<String> steps) {
+        StringBuilder formattedComment = new StringBuilder();
+
+        for (String step : steps) {
+            boolean containsAssert = step.toLowerCase().contains("assert");
+            String formattedStep = step.replace("passed", "<span style='color: green;'>passed</span>");
+
+            if (containsAssert) {
+                formattedStep = "<strong>" + formattedStep + "</strong>";
+            }
+
+            formattedComment.append(formattedStep).append("<br>");
+        }
+
+        return formattedComment.toString();
+    }
+
 }

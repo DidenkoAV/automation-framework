@@ -37,7 +37,7 @@ public class AllureHelper {
 
     public static List<String> getAllureLogs(ITestResult result) {
         List<String> logs = new ArrayList<>();
-        String testId = getTestRailTestId(result);
+        //String testId = getTestRailTestId(result);
 
         File resultsDir = new File(ALLURE_RESULTS_DIR);
         File[] resultFiles = resultsDir.listFiles((dir, name) -> name.endsWith("-result.json"));
@@ -50,12 +50,12 @@ public class AllureHelper {
             ObjectMapper mapper = new ObjectMapper();
             for (File resultFile : resultFiles) {
                 JsonNode resultNode = mapper.readTree(resultFile);
-                String allureId = AllureHelper.getAllureIdFromLabels(resultNode.path("labels")).replaceAll("\\D+", "");
+                //String allureId = AllureHelper.getAllureIdFromLabels(resultNode.path("labels")).replaceAll("\\D+", "");
 
-                if (allureId != null && allureId.equals(testId)) {
+                //if (allureId != null && allureId.equals(testId)) {
                     JsonNode stepsNode = resultNode.path("steps");
                     AllureHelper.collectStepLogs(stepsNode, logs, mapper);
-                }
+                //}
             }
         } catch (IOException e) {
             e.printStackTrace();
