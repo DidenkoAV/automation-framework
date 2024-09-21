@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/DidenkoAV/automation-framework.git', credentialsId: '42824942-dce7-4395-85f1-3d43af0c81fa'
+                git url: 'git@github.com:DidenkoAV/automation-framework.git', credentialsId: '42824942-dce7-4395-85f1-3d43af0c81fa'
             }
         }
 
