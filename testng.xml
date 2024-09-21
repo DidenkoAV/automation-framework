@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke test Suite">
+    <test name="Regression">
+        <packages>
+            <package name="tests.umh.smoke.*"></package>
+        </packages>
+    </test>
+</suite>

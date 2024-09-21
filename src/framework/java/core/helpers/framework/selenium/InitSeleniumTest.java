@@ -2,6 +2,7 @@ package core.helpers.framework.selenium;
 
 import core.annotations.TestParams;
 import core.enums.selenium.BrowserEnum;
+import core.helpers.framework.general.AnnotationHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import core.listeners.TestRailListener;
 import org.openqa.selenium.WebDriver;
@@ -18,7 +19,7 @@ public class InitSeleniumTest {
     @BeforeMethod
     public void setup(Method method) {
         if (method.isAnnotationPresent(TestParams.class)) {
-            String browser = parseBrowserFromAnnotation(method);
+            String browser = AnnotationHelper.parseBrowserFromTestParams(method);
 
             BrowserEnum browserEnum = BrowserEnum.get(browser);
 
@@ -39,7 +40,7 @@ public class InitSeleniumTest {
             driver.get(baseUrl);
         } else {
             throw new RuntimeException("Please setup annotation @InitTest with browser to test method");
-    }
+        }
 
     }
 
@@ -49,12 +50,4 @@ public class InitSeleniumTest {
             driver.quit();
         }
     }
-
-    private static String parseBrowserFromAnnotation(Method method){
-        TestParams testParams = method.getAnnotation(TestParams.class);
-        String browser = testParams.browser();
-        return browser;
-    }
-
-
 }

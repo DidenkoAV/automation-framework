@@ -1,8 +1,8 @@
 package core.listeners;
 
-import core.annotations.TestParams;
 import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.allure.AllureHelper;
+import core.helpers.framework.general.AnnotationHelper;
 import core.helpers.framework.general.FileHelper;
 import core.helpers.framework.testrail.TestRailHelper;
 import org.testng.ITestContext;
@@ -53,8 +53,8 @@ public class TestRailListener implements ITestListener {
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum) {
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         String classAndMethodPath = getClassAndMethodPath(method);
-        int scenario = getScenarioFromTestParamsAnnotation(method);
-        int runId = getRunIdFromTestParamsAnnotation(method);
+        int scenario = AnnotationHelper.getScenarioFromTestParams(method);
+        int runId = AnnotationHelper.getRunIdFromTestParams(method);
 
         List<String> logs = AllureHelper.getAllureLogs();
         String logsString = TestRailHelper.formatComments(logs);
@@ -63,15 +63,7 @@ public class TestRailListener implements ITestListener {
     }
 
 
-    private static int getScenarioFromTestParamsAnnotation(Method method) {
-        TestParams testParams = method.getAnnotation(TestParams.class);
-        return testParams != null ? testParams.scenario() : -1;
-    }
 
-    private static int getRunIdFromTestParamsAnnotation(Method method) {
-        TestParams testParams = method.getAnnotation(TestParams.class);
-        return testParams != null ? testParams.runId() : -1;
-    }
 
     private static String getClassAndMethodPath(Method method) {
         Class<?> declaringClass = method.getDeclaringClass();
