@@ -6,48 +6,74 @@ import core.helpers.framework.general.AnnotationHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import core.listeners.TestRailListener;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
 @Listeners(TestRailListener.class)
 public class InitSeleniumTest {
+    private static final String UNDEFINED = "undefined";
     protected WebDriver driver;
 
     @BeforeMethod
-    public void setup(Method method) {
-        if (method.isAnnotationPresent(TestParams.class)) {
-            String browser = AnnotationHelper.parseBrowserFromTestParams(method);
+    @Parameters({"browser", "runId", "scenario"})
+    public void setup(Method method, @Optional(UNDEFINED) String browserParam,
+                      @Optional(UNDEFINED) String runIdParam,
+                      @Optional(UNDEFINED) String scenarioParam) {
+        String browser;
+        String runId;
+        String scenario;
+        String csvFilePath;
 
-            BrowserEnum browserEnum = BrowserEnum.get(browser);
+        TestParams testParams = method.getAnnotation(TestParams.class);
+        csvFilePath = testParams.csvPath();
 
-            switch (browserEnum) {
-                case CHROME:
-                    driver = LoadBrowser.loadChrome();
-                    break;
-                case FIREFOX:
-                    driver = LoadBrowser.loadFirefox();
-                    break;
-                default:
-                    throw new RuntimeException("Unsupported browser: " + browser);
-            }
+        boolean isRunningFromXml = !UNDEFINED.equals(browserParam) && !UNDEFINED.equals(runIdParam) && !UNDEFINED.equals(scenarioParam);
 
-            PropertiesReaderHelper propertiesReaderHelper = new PropertiesReaderHelper("init.properties");
-            String baseUrl = propertiesReaderHelper.getProperty("selenium.url");
-
-            driver.get(baseUrl);
+        if (isRunningFromXml) {
+            browser = browserParam;
+            runId = runIdParam;
+            scenario = scenarioParam;
         } else {
-            throw new RuntimeException("Please setup annotation @InitTest with browser to test method");
+            browser = testParams.browser();
+            runId = String.valueOf(testParams.runId());
+            scenario = String.valueOf(testParams.scenario());
         }
 
+        driver = defineDriver(browser);
+        String baseUrl = defineBaseUrl();
+        driver.get(baseUrl);
+
+        System.out.println("Running test with Run ID: " + runId + " and Scenario: " + scenario);
     }
+
+
 
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
+        }
+    }
+
+    private static String defineBaseUrl(){
+        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper("init.properties");
+        String baseUrl = readerHelper.getProperty("selenium.url");
+        return baseUrl;
+    }
+
+    private static WebDriver defineDriver(String browser){
+        WebDriver driver;
+        BrowserEnum browserEnum = BrowserEnum.get(browser);
+        switch (browserEnum) {
+            case CHROME:
+                driver = LoadBrowser.loadChrome();
+                return driver;
+            case FIREFOX:
+                driver = LoadBrowser.loadFirefox();
+                return driver;
+            default:
+                throw new RuntimeException("Unsupported browser: " + browser);
         }
     }
 }

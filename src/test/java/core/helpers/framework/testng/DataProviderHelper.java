@@ -1,7 +1,9 @@
 package core.helpers.framework.testng;
 
 import core.annotations.TestParams;
+import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,23 +17,34 @@ import java.util.List;
 public class DataProviderHelper {
 
     @DataProvider(name = "csvData")
-    public Object[][] csvDataProvider(Method method) {
-        TestParams csvData = method.getAnnotation(TestParams.class);
-        if (csvData != null) {
-            return parseCsvToMap(csvData.csvPath(), method.getDeclaringClass(), csvData.scenario());
+    public Object[][] csvDataProvider(Method method, ITestContext context) {
+        TestParams testParams = method.getAnnotation(TestParams.class);
+
+        boolean runningViaXml = isRunningViaXml(context);
+
+        String csvPath = testParams.csvPath();
+        int scenario;
+
+        if (runningViaXml) {
+            scenario = Integer.parseInt(context.getCurrentXmlTest().getParameter("scenario"));
+        } else {
+            scenario = testParams.scenario();
         }
-        return new Object[0][0];
+
+        return parseCsvToMap(csvPath, method.getDeclaringClass(), scenario);
+    }
+
+    private boolean isRunningViaXml(ITestContext context) {
+        return context.getCurrentXmlTest().getParameter("runmode") != null;
     }
 
     public static Object[][] parseCsvToMap(String relativeFilePath, Class<?> clazz, int scenario) {
         List<HashMap<String, String>> dataList = new ArrayList<>();
         String line;
 
-        // Get the path to the directory of the class
         String packagePath = clazz.getPackage().getName().replace('.', '/');
         String fullPath = packagePath + "/data/" + relativeFilePath;
 
-        // Construct the full file path based on the test directory
         String filePath = System.getProperty("user.dir") + "/src/test/java/" + fullPath;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
