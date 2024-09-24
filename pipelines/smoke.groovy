@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        MAVEN_HOME = '/opt/homebrew/Cellar/maven/3.9.9'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+    }
 
     stages {
         stage('Checkout') {
