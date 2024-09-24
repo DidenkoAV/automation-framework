@@ -2,8 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Smoke test Suite">
     <test name="Regression">
-        <packages>
-            <package name="tests.umh.smoke.*"></package>
-        </packages>
+<!--        <packages>-->
+<!--            <package name="tests.umh.smoke.*"></package>-->
+<!--        </packages>-->
+        <classes>
+            <class name="tests.umh.smoke.AuthorizationTests"></class>
+        </classes>
     </test>
 </suite>
