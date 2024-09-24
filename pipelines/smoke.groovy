@@ -14,13 +14,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run TestNG using the testng.xml file
                 sh 'mvn test -Dsurefire.suiteXmlFiles=testng.xml'
             }
         }
