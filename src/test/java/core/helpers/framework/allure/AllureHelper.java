@@ -2,6 +2,7 @@ package core.helpers.framework.allure;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import core.helpers.framework.general.PropertiesReaderHelper;
 import org.testng.ITestResult;
 
 import java.io.File;
@@ -11,7 +12,6 @@ import java.util.List;
 
 
 public class AllureHelper {
-    public static final String ALLURE_RESULTS_DIR = "allure-results";
 
 
     public static void collectStepLogs(JsonNode stepsNode, List<String> logs, ObjectMapper mapper){
@@ -28,7 +28,10 @@ public class AllureHelper {
     public static List<String> getAllureLogs() {
         List<String> logs = new ArrayList<>();
 
-        File resultsDir = new File(ALLURE_RESULTS_DIR);
+        PropertiesReaderHelper propertiesReaderHelper = new PropertiesReaderHelper("allure.properties");
+        String allurePath = propertiesReaderHelper.getProperty("allure.results.directory");
+
+        File resultsDir = new File(allurePath);
         File[] resultFiles = resultsDir.listFiles((dir, name) -> name.endsWith("-result.json"));
 
         if (resultFiles == null) {

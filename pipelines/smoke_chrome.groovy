@@ -23,15 +23,18 @@ pipeline {
                 sh 'mvn test -Dsurefire.suiteXmlFiles=testng.xml -Dbrowser=chrome'
             }
         }
+
+        stage('Generate Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'target/allure-results']]
+            }
+        }
     }
 
     post {
         always {
-            junit '**/target/surefire-reports/*.xml'
-            allure([
-                    results: [[path: 'target/allure-results']],
-                    report: 'target/allure-report'
-            ])
+            archiveArtifacts artifacts: 'target/allure-results/**'
+            allure includeProperties: false, results: [[path: 'target/allure-results']]
         }
     }
 }

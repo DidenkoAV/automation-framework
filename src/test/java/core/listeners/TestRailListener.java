@@ -3,17 +3,14 @@ package core.listeners;
 import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.allure.AllureHelper;
 import core.helpers.framework.general.AnnotationHelper;
-import core.helpers.framework.general.FileHelper;
 import core.helpers.framework.testrail.TestRailHelper;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static core.helpers.framework.allure.AllureHelper.ALLURE_RESULTS_DIR;
 
 
 public class TestRailListener implements ITestListener {
@@ -21,7 +18,7 @@ public class TestRailListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        FileHelper.deleteDirectory(new File(ALLURE_RESULTS_DIR));
+        //FileHelper.deleteDirectory(new File(ALLURE_RESULTS_DIR));
 
     }
 
