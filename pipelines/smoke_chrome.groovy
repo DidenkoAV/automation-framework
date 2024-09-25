@@ -3,7 +3,7 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/homebrew/Cellar/maven/3.9.9'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        ALLURE_REPORT_DIR = 'allure-reports'
+        ALLURE_HISTORY_DIR = 'allure_history'
     }
 
     stages {
@@ -28,14 +28,15 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                 sh 'mvn allure:report'
-                sh "mkdir -p ${ALLURE_REPORT_DIR} && cp -r target/allure-results/* ${ALLURE_REPORT_DIR}/"
+                sh "mkdir -p ${ALLURE_HISTORY_DIR}"
+                sh "cp -r target/allure-results/* ${ALLURE_HISTORY_DIR}/"
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'target/allure-results/**'
+           // archiveArtifacts artifacts: 'target/allure-results/**'
             allure includeProperties: false, results: [[path: 'target/allure-results']]
         }
     }
