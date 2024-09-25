@@ -56,10 +56,8 @@ public class TestRailListener implements ITestListener {
 
         List<String> logs = AllureHelper.getAllureLogs();
         String logsString = TestRailHelper.formatComments(logs);
-        System.out.println("DEBUG ALLURE LOGS FOR TESTRAIL: " + logsString);
 
-        AddResultForCaseResponseDTO dto = TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
-        System.out.println(dto.toString());
+        TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
     }
 
 

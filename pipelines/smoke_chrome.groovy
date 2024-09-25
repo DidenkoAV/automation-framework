@@ -3,6 +3,7 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/homebrew/Cellar/maven/3.9.9'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        ALLURE_REPORT_DIR = 'allure-reports'
     }
 
     stages {
@@ -27,6 +28,7 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                 sh 'mvn allure:report'
+                sh "mkdir -p ${ALLURE_REPORT_DIR} && cp -r target/allure-results/* ${ALLURE_REPORT_DIR}/"
             }
         }
     }
