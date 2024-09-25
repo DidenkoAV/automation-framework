@@ -20,7 +20,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'mvn test -Dsurefire.suiteXmlFiles=testng.xml'
+                sh 'mvn test -Dsurefire.suiteXmlFiles=testng.xml -Dbrowser=firefox'
             }
         }
     }

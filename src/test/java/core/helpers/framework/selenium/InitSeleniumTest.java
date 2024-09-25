@@ -17,9 +17,7 @@ public class InitSeleniumTest {
 
     @BeforeMethod
     @Parameters({"browser", "runId", "scenario"})
-    public void setup(Method method, @Optional(UNDEFINED) String browserParam,
-                      @Optional(UNDEFINED) String runIdParam,
-                      @Optional(UNDEFINED) String scenarioParam) {
+    public void setup(Method method, @Optional(UNDEFINED) String browserParam, @Optional(UNDEFINED) String runIdParam, @Optional(UNDEFINED) String scenarioParam) {
         String browser;
         String runId;
         String scenario;
