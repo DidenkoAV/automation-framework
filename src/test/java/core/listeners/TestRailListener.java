@@ -1,5 +1,6 @@
 package core.listeners;
 
+import core.dto.testrail.AddResultForCaseResponseDTO;
 import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.allure.AllureHelper;
 import core.helpers.framework.general.AnnotationHelper;
@@ -55,8 +56,10 @@ public class TestRailListener implements ITestListener {
 
         List<String> logs = AllureHelper.getAllureLogs();
         String logsString = TestRailHelper.formatComments(logs);
+        System.out.println("DEBUG ALLURE LOGS FOR TESTRAIL: " + logsString);
 
-        TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
+        AddResultForCaseResponseDTO dto = TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
+        System.out.println(dto.toString());
     }
 
 
