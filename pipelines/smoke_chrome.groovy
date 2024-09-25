@@ -4,9 +4,6 @@ pipeline {
         MAVEN_HOME = '/opt/homebrew/Cellar/maven/3.9.9'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         ALLURE_HISTORY_DIR = 'allure_history'
-        SFTP_USER = 'your_sftp_user'
-        SFTP_HOST = 'your_sftp_server'
-        SFTP_PATH = '/remote/path/to/allure/history'
     }
 
     stages {
@@ -35,27 +32,12 @@ pipeline {
                 sh "cp -r target/allure-results/* ${ALLURE_HISTORY_DIR}/"
             }
         }
-
-        stage('Upload Allure Reports') {
-            steps {
-                // Use SFTP to upload the reports
-                script {
-                    sh """
-                        sftp ${SFTP_USER}@${SFTP_HOST} <<EOF
-                        mkdir -p ${SFTP_PATH}
-                        put -r ${ALLURE_HISTORY_DIR}/* ${SFTP_PATH}/
-                        bye
-                        EOF
-                    """
-                }
-            }
-        }
     }
 
     post {
         always {
-            def reportLink = "http://${SFTP_HOST}/${SFTP_PATH}"
-            currentBuild.description = "View historical Allure reports: <a href='${reportLink}'>here</a>"
+           // archiveArtifacts artifacts: 'target/allure-results/**'
+            allure includeProperties: false, results: [[path: 'target/allure-results']]
         }
     }
 }
