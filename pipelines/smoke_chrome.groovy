@@ -26,7 +26,7 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'target/allure-results']]
+                sh 'mvn allure:report'
             }
         }
     }
