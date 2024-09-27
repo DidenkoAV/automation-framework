@@ -2,6 +2,7 @@ package core.helpers.framework.allure;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import core.helpers.framework.general.FileHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import org.testng.ITestResult;
 
@@ -51,5 +52,11 @@ public class AllureHelper {
         }
 
         return logs;
+    }
+
+    public static void clearAllureFolder(){
+        PropertiesReaderHelper helper = new PropertiesReaderHelper("allure.properties");
+        String allureDir = helper.getProperty("allure.results.directory");
+        FileHelper.deleteDirectory(new File(allureDir));
     }
 }

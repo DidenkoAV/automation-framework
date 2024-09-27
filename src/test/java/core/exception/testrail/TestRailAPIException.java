@@ -11,9 +11,9 @@
 
 package core.exception.testrail;
  
-public class APIException extends RuntimeException
+public class TestRailAPIException extends RuntimeException
 {
-	public APIException(String message)
+	public TestRailAPIException(String message)
 	{
 		super(message);
 	}

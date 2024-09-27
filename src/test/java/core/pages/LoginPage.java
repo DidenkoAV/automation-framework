@@ -1,11 +1,10 @@
 package core.pages;
 
 import core.helpers.framework.selenium.WebDriverHelper;
+import core.helpers.framework.log.LogHelper;
 import core.pageengine.InitPage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LoginPage extends InitPage {
 
@@ -20,25 +19,25 @@ public class LoginPage extends InitPage {
 
     @Step("Enter company: {company}")
     public void enterCompany(String company){
-        logger.info("Entering company: {}", company);
+        LogHelper.substep("Entering company:" + company);
         WebDriverHelper.enterTextByXpath(driver, company, COMPANY_INPUT);
     }
 
     @Step("Enter username: {user}")
     public void enterUser(String user){
-        logger.info("Entering username: {}", user);
+        LogHelper.substep("Entering username:"+ user);
         WebDriverHelper.enterTextByXpath(driver, user, USERNAME_INPUT);
     }
 
     @Step("Enter password: {password}")
     public void enterPassword(String password){
-        logger.info("Entering password: {}", password);
+        LogHelper.substep("Entering password:"+ password);
         WebDriverHelper.enterTextByXpath(driver, password, PASSWORD_INPUT);
     }
 
     @Step("Click login button")
     public void clickLoginButton(){
-        logger.info("Clicking the login button");
+        LogHelper.substep("Clicking the login button");
         WebDriverHelper.clickElement(driver, LOGIN_BUTTON);
     }
 }

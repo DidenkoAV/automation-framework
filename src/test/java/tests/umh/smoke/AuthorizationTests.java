@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class AuthorizationTests extends InitSeleniumTest {
 
-    @TestParams(browser = "chrome", csvPath = "login.csv", runId = 1, scenario = 2)
+    @TestParams(browser = "firefox", csvPath = "login.csv", runId = 1, scenario = 2)
     @Test(dataProvider = "csvData", dataProviderClass = DataProviderHelper.class)
     public void login(HashMap<String, String> data) {
         LoginDto loginDto = LoginHelper.setupLoginTdo(data);

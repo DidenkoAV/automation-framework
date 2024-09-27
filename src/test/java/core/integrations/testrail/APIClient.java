@@ -10,7 +10,7 @@
 package core.integrations.testrail;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.exception.testrail.APIException;
+import core.exception.testrail.TestRailAPIException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -79,7 +79,7 @@ public class APIClient
 	 * If 'get_attachment/:attachment_id', returns a String
 	 */
 	public Object sendGet(String uri, String data)
-			throws IOException, APIException, IllegalAccessException {
+			throws IOException, TestRailAPIException, IllegalAccessException {
 		return this.sendRequest("GET", uri, data);
 	}
 	
@@ -117,7 +117,7 @@ public class APIClient
 		}
 	}
 	
-	private Object sendRequest(String method, String uri, Object data) throws IOException, APIException, IllegalAccessException {
+	private Object sendRequest(String method, String uri, Object data) throws IOException, TestRailAPIException, IllegalAccessException {
 		URL url = new URL(this.m_url + uri);
 		// Create the connection object and set the required HTTP method
 		// (GET/POST) and headers (content type and basic auth).
@@ -207,7 +207,7 @@ public class APIClient
 			istream = conn.getErrorStream();
 			if (istream == null)
 			{
-				throw new APIException(
+				throw new TestRailAPIException(
 					"TestRail API return HTTP " + status + 
 					" (No additional error message received)"
 				);
@@ -280,7 +280,7 @@ public class APIClient
                 error = '"' + (String) result.get("error") + '"';
             }
 
-            throw new APIException(
+            throw new TestRailAPIException(
 				"TestRail API returned HTTP " + status +
 				"(" + error + ")"
 			);

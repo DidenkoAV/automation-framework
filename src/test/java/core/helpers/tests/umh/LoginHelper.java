@@ -1,16 +1,14 @@
 package core.helpers.tests.umh;
 
+import core.helpers.framework.log.LogHelper;
 import core.pages.LoginPage;
 import core.dto.umh.LoginDto;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 public class LoginHelper {
-    private static final Logger logger = LoggerFactory.getLogger(LoginHelper.class);
 
     public static LoginDto setupLoginTdo(HashMap<String, String> data) {
         LoginDto loginDTO = new LoginDto();
@@ -19,8 +17,7 @@ public class LoginHelper {
         loginDTO.setPassword(data.get("password"));
         loginDTO.setTitle(data.get("title"));
 
-        logger.info("Setting up LoginDto with company: {}, user: {}, title: {}",
-                loginDTO.getCompany(), loginDTO.getUser(), loginDTO.getTitle());
+        LogHelper.step("Prepare login tdo: company is [" + loginDTO.getCompany() + "], user is [" + loginDTO.getUser()+ "]");
 
         return loginDTO;
     }
@@ -29,13 +26,11 @@ public class LoginHelper {
     public static void login(WebDriver driver, LoginDto tdo) {
         LoginPage loginPage = new LoginPage(driver);
 
-        logger.info("Logging in with company: {}, user: {}", tdo.getCompany(), tdo.getUser());
+        LogHelper.step("Start to login");
 
         loginPage.enterCompany(tdo.getCompany());
         loginPage.enterUser(tdo.getUser());
         loginPage.enterPassword(tdo.getPassword());
         loginPage.clickLoginButton();
-
-        logger.info("Login attempt completed for user: {}", tdo.getUser());
     }
 }

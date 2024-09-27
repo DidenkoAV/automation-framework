@@ -3,18 +3,18 @@ package core.helpers.framework.testng;
 import core.annotations.TestParams;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class DataProviderHelper {
+    public static final String ALL = "ALL";
+
 
     @DataProvider(name = "csvData")
     public Object[][] csvDataProvider(Method method, ITestContext context) {
@@ -23,22 +23,25 @@ public class DataProviderHelper {
         boolean runningViaXml = isRunningViaXml(context);
 
         String csvPath = testParams.csvPath();
-        int scenario;
+        String scenario;
 
         if (runningViaXml) {
-            scenario = Integer.parseInt(context.getCurrentXmlTest().getParameter("scenario"));
+            scenario = context.getCurrentXmlTest().getParameter("scenario");
+            if(scenario==null){
+              scenario = ALL;
+            }
         } else {
-            scenario = testParams.scenario();
+            scenario = String.valueOf(testParams.scenario());
         }
 
         return parseCsvToMap(csvPath, method.getDeclaringClass(), scenario);
     }
 
-    private boolean isRunningViaXml(ITestContext context) {
+    public static boolean isRunningViaXml(ITestContext context) {
         return context.getCurrentXmlTest().getParameter("runmode") != null;
     }
 
-    public static Object[][] parseCsvToMap(String relativeFilePath, Class<?> clazz, int scenario) {
+    public static Object[][] parseCsvToMap(String relativeFilePath, Class<?> clazz, String scenario) {
         List<HashMap<String, String>> dataList = new ArrayList<>();
         String line;
 
@@ -52,25 +55,38 @@ public class DataProviderHelper {
             String[] headers = headerLine.split(",");
 
             int lineCount = 0;
-            while ((line = br.readLine()) != null) {
-                lineCount++;
-                if (lineCount == scenario) {
+            if (ALL.equalsIgnoreCase(scenario)) {
+                while ((line = br.readLine()) != null) {
+                    lineCount++;
                     String[] values = line.split(",");
                     HashMap<String, String> dataMap = new HashMap<>();
                     for (int i = 0; i < headers.length; i++) {
                         dataMap.put(headers[i].trim(), values[i].trim());
                     }
                     dataList.add(dataMap);
-                    break; // Exit after finding the scenario
+                }
+            } else {
+                int scenarioLine = Integer.parseInt(scenario);
+                while ((line = br.readLine()) != null) {
+                    lineCount++;
+                    if (lineCount == scenarioLine) {
+                        String[] values = line.split(",");
+                        HashMap<String, String> dataMap = new HashMap<>();
+                        for (int i = 0; i < headers.length; i++) {
+                            dataMap.put(headers[i].trim(), values[i].trim());
+                        }
+                        dataList.add(dataMap);
+                        break;
+                    }
                 }
             }
 
-            // Convert List<HashMap<String, String>> to Object[][]
             Object[][] result = new Object[dataList.size()][1];
             for (int i = 0; i < dataList.size(); i++) {
                 result[i][0] = dataList.get(i);
             }
             return result;
+
         } catch (IOException e) {
             throw new RuntimeException("Error reading file: " + filePath, e);
         }

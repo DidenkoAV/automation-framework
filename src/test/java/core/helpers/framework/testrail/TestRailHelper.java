@@ -1,6 +1,5 @@
 package core.helpers.framework.testrail;
 
-import core.dto.testrail.TestListByRunIdDTO;
 import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.general.JsonHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
@@ -87,22 +86,5 @@ public class TestRailHelper {
             }
         }
         return null;
-    }
-
-    public static String formatComments(List<String> steps) {
-        StringBuilder formattedComment = new StringBuilder();
-
-        for (String step : steps) {
-            boolean containsAssert = step.toLowerCase().contains("assert");
-            String formattedStep = step.replace("passed", "<span style='color: green;'>passed</span>");
-
-            if (containsAssert) {
-                formattedStep = "<strong>" + formattedStep + "</strong>";
-            }
-
-            formattedComment.append(formattedStep).append("<br>");
-        }
-
-        return formattedComment.toString();
     }
 }
