@@ -1,0 +1,1 @@
+1. In testrail create custom fields (see screenshots)

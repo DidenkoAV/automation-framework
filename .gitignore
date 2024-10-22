@@ -1,6 +1,7 @@
 # Idea
 .idea
+.allure
+logs
 # target
 target
-
 jenkins.tar

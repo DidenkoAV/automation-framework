@@ -33,11 +33,6 @@ public class TestRailListener implements ITestListener {
         handleTestResult(result, TestRailCaseStatusEnum.FAILED, result.getTestContext());
     }
 
-//    @Override
-//    public void onTestSkipped(ITestResult result) {
-//        handleTestResult(result, TestRailCaseStatusEnum.SKIPPED, result.getTestContext());
-//    }
-
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     }
