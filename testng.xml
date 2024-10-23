@@ -5,9 +5,8 @@
         <parameter name="runmode" value="xml"></parameter>
         <parameter name="browser" value="chrome"/>
         <parameter name="runId" value="1"/>
-        <!--<parameter name="scenario" value="2"/>-->
-        <classes>
-            <class name="tests.umh.smoke.AuthorizationTests"></class>
-        </classes>
+        <packages>
+            <package name="tests.umh.smoke.*"></package>
+        </packages>
     </test>
 </suite>

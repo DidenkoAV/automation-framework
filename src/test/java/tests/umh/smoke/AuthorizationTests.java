@@ -5,7 +5,7 @@ import core.helpers.framework.selenium.InitSeleniumTest;
 import core.helpers.framework.testng.AssertionHelper;
 import core.helpers.framework.testng.DataProviderHelper;
 import core.helpers.tests.umh.LoginHelper;
-import core.dto.umh.LoginDto;
+import core.tdo.umh.LoginDto;
 import org.testng.annotations.Test;
 import java.util.HashMap;
 

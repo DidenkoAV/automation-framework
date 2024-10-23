@@ -11,11 +11,13 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import static core.helpers.framework.testng.DataProviderHelper.isRunningViaXml;
 
 public class TestRailListener implements ITestListener {
+    private final List<ITestResult> testResults = new ArrayList<>();
     public static int ALL_SCENARIOS = 1;
 
     @Override
@@ -26,19 +28,26 @@ public class TestRailListener implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult result) {
         handleTestResult(result, TestRailCaseStatusEnum.PASSED, result.getTestContext());
+        testResults.add(result);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         handleTestResult(result, TestRailCaseStatusEnum.FAILED, result.getTestContext());
+        testResults.add(result);
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        testResults.add(result);
     }
 
     @Override
     public void onFinish(ITestContext context) {
+    }
+
+    public List<ITestResult> getTestResults() {
+        return testResults;
     }
 
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum, ITestContext context) {

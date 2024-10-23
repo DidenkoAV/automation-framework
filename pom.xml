@@ -23,6 +23,8 @@
     <logback.classic.version>1.5.7</logback.classic.version>
     <okhttp.version>4.12.0</okhttp.version>
     <allure.mvn.version>2.8</allure.mvn.version>
+    <telegrambot>6.1.0</telegrambot>
+    <telegrambotapi>7.9.1</telegrambotapi>
   </properties>
 
   <repositories>
@@ -34,7 +36,6 @@
 
   <build>
     <plugins>
-      <!-- Surefire plugin to run tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -72,28 +73,24 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- JSON dependency -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>${org.json.version}</version>
     </dependency>
 
-    <!-- Jackson annotations -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>${jackson.annotations.version}</version>
     </dependency>
 
-    <!-- Jackson object mapper -->
     <dependency>
       <groupId>com.konghq</groupId>
       <artifactId>unirest-objectmapper-jackson</artifactId>
       <version>${jackson.mapper.version}</version>
     </dependency>
 
-    <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -101,7 +98,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- TestNG -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -109,53 +105,59 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Allure TestNG -->
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-testng</artifactId>
       <version>${allure.testng.version}</version>
     </dependency>
 
-    <!-- Selenium Java -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <version>${selenium.version}</version>
     </dependency>
 
-    <!-- WebDriver Manager -->
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>${webdrivermanager.version}</version>
     </dependency>
 
-    <!-- SLF4J API -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
 
-    <!-- Logback Classic for logging -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.classic.version}</version>
     </dependency>
 
-    <!-- Allure Maven plugin dependency -->
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-maven</artifactId>
       <version>${allure.mvn.version}</version>
     </dependency>
 
-    <!-- OkHttp -->
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>${okhttp.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.telegram</groupId>
+      <artifactId>telegrambots</artifactId>
+      <version>${telegrambot}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.pengrad</groupId>
+      <artifactId>java-telegram-bot-api</artifactId>
+      <version>${telegrambotapi}</version>
+    </dependency>
+
   </dependencies>
 </project>

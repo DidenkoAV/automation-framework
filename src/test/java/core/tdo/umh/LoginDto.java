@@ -1,4 +1,4 @@
-package core.dto.umh;
+package core.tdo.umh;
 
 import lombok.Getter;
 import lombok.Setter;

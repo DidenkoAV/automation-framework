@@ -2,7 +2,7 @@ package core.helpers.tests.umh;
 
 import core.helpers.framework.log.LogHelper;
 import core.pages.LoginPage;
-import core.dto.umh.LoginDto;
+import core.tdo.umh.LoginDto;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 

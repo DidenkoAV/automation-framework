@@ -1,4 +1,4 @@
-package core.dto.testrail;
+package core.tdo.testrail;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

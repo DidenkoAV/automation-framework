@@ -4,13 +4,12 @@ import core.enums.testrail.TestRailCaseStatusEnum;
 import core.helpers.framework.general.JsonHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import core.integrations.testrail.APIClient;
-import core.dto.testrail.AddResultForCaseResponseDTO;
-import core.dto.testrail.CaseDetailsResponseDTO;
+import core.tdo.testrail.AddResultForCaseResponseDTO;
+import core.tdo.testrail.CaseDetailsResponseDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static core.constants.testrail.TestRailConstants.*;
