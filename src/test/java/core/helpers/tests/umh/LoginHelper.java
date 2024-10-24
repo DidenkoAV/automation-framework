@@ -26,7 +26,7 @@ public class LoginHelper {
     public static void login(WebDriver driver, LoginDto tdo) {
         LoginPage loginPage = new LoginPage(driver);
 
-        LogHelper.step("Start to login");
+        LogHelper.step("Start to login:");
 
         loginPage.enterCompany(tdo.getCompany());
         loginPage.enterUser(tdo.getUser());

@@ -22,6 +22,7 @@ public class AuthorizationTests extends InitSeleniumTest {
 
         LoginHelper.login(driver, loginDto);
 
-        AssertionHelper.assertTitleIsExpected(driver,loginDto.getTitle());
+        AssertionHelper.verifyEquals(driver.getTitle(),loginDto.getTitle(),"Title is: " + loginDto.getTitle());
+
     }
 }

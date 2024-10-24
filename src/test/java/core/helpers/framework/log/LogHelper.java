@@ -27,22 +27,38 @@ public class LogHelper {
     public static List<String> getLogs() {
         return new ArrayList<>(logs);
     }
+    public static void assertStep(String message){
+        logger.info(message);
+        logs.add("[ASSERT] " + message);
+    }
+
+    public static void verifyStep(String message){
+        logger.info(message);
+        logs.add("[VERIFY] " + message);
+    }
 
     public static String formatSL4JLogsForTestRail(List<String> logs, boolean showSubsteps) {
-        String color =new PropertiesReaderHelper("init.properties").getProperty("testrail.logs.color");
+        String color = new PropertiesReaderHelper("init.properties").getProperty("testrail.logs.color");
+        String assertColor = new PropertiesReaderHelper("init.properties").getProperty("testrail.logs.assert.color");
         int stepsCount = 1;
         StringBuilder formattedLogs = new StringBuilder("<div style='font-family: Arial, sans-serif; color: #333;'>");
 
         for (String log : logs) {
-            String cleanLog = log.replace("[STEP]", "").replace("[SUBSTEP]", "").trim();
+            String cleanLog = log.replace("[STEP]", "").replace("[SUBSTEP]", "").replace("[ASSERT]", "").trim();
 
             if (log.contains("[STEP]")) {
-                formattedLogs.append("<span style='font-size: 14px; color: "+ color +"; font-weight: bold;'>")
-                        .append("Step ").append(stepsCount).append(": ")
+                formattedLogs.append("<span style='font-size: 12px; color: " + color + ";'>")
+                        .append(stepsCount).append(". ")
                         .append(cleanLog).append("</span><br/>");
                 stepsCount++;
             } else if (log.contains("[SUBSTEP]") && showSubsteps) {
-                formattedLogs.append("<span style='font-size: 12px; color: "+ color +"; margin-left: 20px;'>• ")
+                formattedLogs.append("<span style='font-size: 12px; color: " + color + "; margin-left: 20px;'>• ")
+                        .append(cleanLog).append("</span><br/>");
+            } else if (log.contains("[ASSERT]")) {
+                formattedLogs.append("<span style='font-size: 12px; font-weight: bold; color:"  + assertColor + ";'>")
+                        .append("Assertion: ").append(cleanLog).append("</span><br/>");
+            }else if (log.contains("[VERIFY]")) {
+                formattedLogs.append("<span style='font-size: 12px; font-weight: bold; color:"  + assertColor + ";'>")
                         .append(cleanLog).append("</span><br/>");
             }
         }
@@ -50,6 +66,7 @@ public class LogHelper {
         formattedLogs.append("</div>");
         return formattedLogs.toString();
     }
+
 
 
     public static String formatAllureLogsForTestRail(List<String> steps) {

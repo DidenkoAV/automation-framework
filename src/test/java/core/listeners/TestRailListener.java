@@ -5,7 +5,9 @@ import core.helpers.framework.allure.AllureHelper;
 import core.helpers.framework.general.AnnotationHelper;
 import core.helpers.framework.general.PropertiesReaderHelper;
 import core.helpers.framework.log.LogHelper;
+import core.helpers.framework.testng.AssertionHelper;
 import core.helpers.framework.testrail.TestRailHelper;
+import core.tdo.testrail.ScenarioRunId;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -53,30 +55,11 @@ public class TestRailListener implements ITestListener {
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum, ITestContext context) {
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         String classAndMethodPath = getClassAndMethodPath(method);
-        int scenario;
-        int runId;
+        ScenarioRunId scenarioRunId = defineScenarioAndRunId(context,method);
+        boolean displaySubStep = displaySubStep();
 
-        if (isRunningViaXml(context)) {
-            String scenarioParam = context.getCurrentXmlTest().getParameter("scenario");
-            String runIdParam = context.getCurrentXmlTest().getParameter("runId");
-
-            if(scenarioParam==null){
-                scenarioParam = String.valueOf(ALL_SCENARIOS);
-            }
-
-            scenario = (scenarioParam != null) ? Integer.parseInt(scenarioParam) : -1;
-            runId = (runIdParam != null) ? Integer.parseInt(runIdParam) : -1;
-        } else {
-            scenario = AnnotationHelper.getScenarioFromTestParams(method);
-            runId = AnnotationHelper.getRunIdFromTestParams(method);
-        }
-        PropertiesReaderHelper helper = new PropertiesReaderHelper("init.properties");
-        boolean displaySubstep = Boolean.valueOf(helper.getProperty("testrail.display.substep").trim());
-
-        List<String> logs = LogHelper.getLogs();
-        String logsString = LogHelper.formatSL4JLogsForTestRail(logs,displaySubstep);
-
-        TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(runId, classAndMethodPath, scenario, statusEnum, logsString);
+        String logsString = collectLogsForTestRail(displaySubStep);
+        TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(scenarioRunId.getRunId(), classAndMethodPath, scenarioRunId.getScenario(), statusEnum, logsString);
         ALL_SCENARIOS++;
         LogHelper.clearLogs();
     }
@@ -86,4 +69,39 @@ public class TestRailListener implements ITestListener {
         String methodName = method.getName();
         return declaringClass.getName() + "." + methodName;
     }
+
+    private static String collectLogsForTestRail(boolean displaySubstep){
+        AssertionHelper.getStatistics();
+        AssertionHelper.assertAll();
+        List<String> logs = LogHelper.getLogs();
+        return LogHelper.formatSL4JLogsForTestRail(logs,displaySubstep);
+    }
+
+    private static boolean displaySubStep(){
+        PropertiesReaderHelper helper = new PropertiesReaderHelper("init.properties");
+        return Boolean.parseBoolean(helper.getProperty("testrail.display.substep").trim());
+    }
+
+    public ScenarioRunId defineScenarioAndRunId(ITestContext context, Method method) {
+        int scenario;
+        int runId;
+
+        if (isRunningViaXml(context)) {
+            String scenarioParam = context.getCurrentXmlTest().getParameter("scenario");
+            String runIdParam = context.getCurrentXmlTest().getParameter("runId");
+
+            if (scenarioParam == null) {
+                scenarioParam = String.valueOf(ALL_SCENARIOS);
+            }
+
+            scenario = Integer.parseInt(scenarioParam);
+            runId = (runIdParam != null) ? Integer.parseInt(runIdParam) : -1;
+        } else {
+            scenario = AnnotationHelper.getScenarioFromTestParams(method);
+            runId = AnnotationHelper.getRunIdFromTestParams(method);
+        }
+
+        return new ScenarioRunId(scenario, runId);
+    }
+
 }
