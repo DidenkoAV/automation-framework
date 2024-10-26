@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-10-22T21:37:46 EDT" name="Smoke test Suite" finished-at="2024-10-22T21:38:36 EDT" duration-ms="49702">
+  <suite started-at="2024-10-26T00:02:08 EDT" name="Smoke test Suite" finished-at="2024-10-26T00:02:14 EDT" duration-ms="5841">
     <groups>
     </groups>
-    <test started-at="2024-10-22T21:37:46 EDT" name="Regression" finished-at="2024-10-22T21:38:36 EDT" duration-ms="49702">
-      <class name="messagepoint.smoke.AuthorizationTests">
-        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.smoke.AuthorizationTests@265adfad]" started-at="2024-10-22T21:37:46 EDT" name="setup" finished-at="2024-10-22T21:37:49 EDT" duration-ms="3138" status="PASS">
+    <test started-at="2024-10-26T00:02:08 EDT" name="Regression" finished-at="2024-10-26T00:02:14 EDT" duration-ms="5841">
+      <class name="messagepoint.ui.smoke.AuthorizationTests">
+        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:08 EDT" name="setup" finished-at="2024-10-26T00:02:10 EDT" duration-ms="1331" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void messagepoint.smoke.AuthorizationTests.login(java.util.HashMap)]]>
+                <![CDATA[public void messagepoint.ui.smoke.AuthorizationTests.login(java.util.HashMap)]]>
               </value>
             </param>
             <param index="1">
@@ -33,7 +33,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.smoke.AuthorizationTests@265adfad]" started-at="2024-10-22T21:37:49 EDT" name="login" data-provider="csvData" finished-at="2024-10-22T21:37:51 EDT" duration-ms="2131" status="PASS">
+        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:10 EDT" name="login" data-provider="csvData" finished-at="2024-10-26T00:02:12 EDT" duration-ms="2092" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -44,11 +44,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- login -->
-        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.smoke.AuthorizationTests@265adfad]" started-at="2024-10-22T21:38:13 EDT" name="setup" finished-at="2024-10-22T21:38:15 EDT" duration-ms="2489" status="PASS">
+        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:12 EDT" name="setup" finished-at="2024-10-26T00:02:13 EDT" duration-ms="1148" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[public void messagepoint.smoke.AuthorizationTests.login(java.util.HashMap)]]>
+                <![CDATA[public void messagepoint.ui.smoke.AuthorizationTests.login(java.util.HashMap)]]>
               </value>
             </param>
             <param index="1">
@@ -70,7 +70,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.smoke.AuthorizationTests@265adfad]" started-at="2024-10-22T21:38:15 EDT" name="login" data-provider="csvData" finished-at="2024-10-22T21:38:16 EDT" duration-ms="623" status="PASS">
+        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:13 EDT" name="login" data-provider="csvData" finished-at="2024-10-26T00:02:14 EDT" duration-ms="528" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -81,11 +81,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- login -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:messagepoint.smoke.AuthorizationTests@265adfad]" started-at="2024-10-22T21:38:36 EDT" name="tearDown" finished-at="2024-10-22T21:38:36 EDT" duration-ms="132" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:14 EDT" name="tearDown" finished-at="2024-10-26T00:02:14 EDT" duration-ms="86" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- messagepoint.smoke.AuthorizationTests -->
+      </class> <!-- messagepoint.ui.smoke.AuthorizationTests -->
     </test> <!-- Regression -->
   </suite> <!-- Smoke test Suite -->
 </testng-results>

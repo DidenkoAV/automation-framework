@@ -51,13 +51,14 @@
       </plugin>
 
 
-      <!-- Allure Maven Plugin -->
       <plugin>
         <groupId>io.qameta.allure</groupId>
         <artifactId>allure-maven</artifactId>
         <version>${allure.mvn.version}</version>
       </plugin>
     </plugins>
+
+    <testSourceDirectory>src/test/java</testSourceDirectory>
   </build>
 
   <dependencyManagement>

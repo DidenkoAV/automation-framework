@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestNgRunner {
-
     public static String runSmoke() {
+
         TestNG testng = new TestNG();
         XmlSuite suite = new XmlSuite();
         suite.setName("Smoke test Suite");
@@ -25,23 +25,17 @@ public class TestNgRunner {
         regressionTest.addParameter("runId", "1");
 
         List<XmlPackage> packages = new ArrayList<>();
-        XmlPackage smoke = new XmlPackage("tests.umh.smoke.*");
-        packages.add(smoke);
+        XmlPackage smokePackage = new XmlPackage("messagepoint.ui.smoke");
+        packages.add(smokePackage);
         regressionTest.setPackages(packages);
 
         List<XmlSuite> suites = new ArrayList<>();
         suites.add(suite);
         testng.setXmlSuites(suites);
 
-        // Create instances of listeners
-        TestRailListener testRailListener = new TestRailListener();
-
-        // Add listeners to TestNG
-        testng.addListener(testRailListener);
-
         testng.run();
 
-        List<ITestResult> results = testRailListener.getTestResults();
+        List<ITestResult> results = TestRailListener.getTestResults();
         StringBuilder output = new StringBuilder();
 
         output.append("===============================================\n");
@@ -58,21 +52,24 @@ public class TestNgRunner {
             if (result.getThrowable() != null) {
                 output.append("Error: ").append(result.getThrowable().getMessage()).append("\n");
             }
-            output.append("Logs:\n").append(getLogsForTest(result)).append("\n");
+            List<String> logs = TestRailListener.getLogsForTelegram();
+            output.append("Logs:\n").append(logs).append("\n");
         }
 
         return output.toString();
     }
 
     private static int countResults(List<ITestResult> results, int status) {
-        return (int) results.stream().filter(result -> result.getStatus() == status).count();
-    }
-
-    private static String getLogsForTest(ITestResult result) {
-        return "Detailed log messages for " + result.getName();
+        int count = 0;
+        for (ITestResult result : results) {
+            if (result.getStatus() == status) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public static void main(String[] args) {
-        String string = TestNgRunner.runSmoke();
+        runSmoke();
     }
 }

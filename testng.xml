@@ -6,7 +6,7 @@
         <parameter name="browser" value="chrome"/>
         <parameter name="runId" value="1"/>
         <packages>
-            <package name="tests.umh.smoke.*"></package>
+            <package name="messagepoint.ui.smoke.*"></package>
         </packages>
     </test>
 </suite>

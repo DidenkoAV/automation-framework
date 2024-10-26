@@ -8,6 +8,7 @@ import framework.helpers.log.LogHelper;
 import framework.helpers.testng.AssertionHelper;
 import framework.helpers.testrail.TestRailHelper;
 import framework.tdo.testrail.ScenarioRunIdConfig;
+import lombok.Getter;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -19,7 +20,10 @@ import java.util.List;
 import static framework.helpers.testng.DataProviderHelper.isRunningViaXml;
 
 public class TestRailListener implements ITestListener {
-    private final List<ITestResult> testResults = new ArrayList<>();
+    @Getter
+    private static final List<ITestResult> testResults = new ArrayList<>();
+    @Getter
+    public static List<String> logsForTelegram = new ArrayList<>();
     public static int ALL_SCENARIOS = 1;
 
     @Override
@@ -48,19 +52,16 @@ public class TestRailListener implements ITestListener {
     public void onFinish(ITestContext context) {
     }
 
-    public List<ITestResult> getTestResults() {
-        return testResults;
-    }
-
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum, ITestContext context) {
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         String classAndMethodPath = getClassAndMethodPath(method);
         ScenarioRunIdConfig scenarioRunIdConfig = defineScenarioAndRunId(context,method);
         boolean displaySubStep = displaySubStep();
 
-        String logsString = collectLogsForTestRail(displaySubStep);
+        String logsString = collectSl4jLogs(displaySubStep);
         TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(scenarioRunIdConfig.getRunId(), classAndMethodPath, scenarioRunIdConfig.getScenario(), statusEnum, logsString);
         ALL_SCENARIOS++;
+        logsForTelegram = new ArrayList<>(LogHelper.getLogs());
         LogHelper.clearLogs();
     }
 
@@ -70,14 +71,14 @@ public class TestRailListener implements ITestListener {
         return declaringClass.getName() + "." + methodName;
     }
 
-    private static String collectLogsForTestRail(boolean displaySubstep){
+    public static String collectSl4jLogs(boolean displaySubstep){
         AssertionHelper.getStatistics();
         AssertionHelper.assertAll();
         List<String> logs = LogHelper.getLogs();
         return LogHelper.formatSL4JLogsForTestRail(logs,displaySubstep);
     }
 
-    private static boolean displaySubStep(){
+    public static boolean displaySubStep(){
         PropertiesReaderHelper helper = new PropertiesReaderHelper("init.properties");
         return Boolean.parseBoolean(helper.getProperty("testrail.display.substep").trim());
     }

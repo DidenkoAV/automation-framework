@@ -25,7 +25,7 @@ public class LogHelper {
     }
 
     public static List<String> getLogs() {
-        return new ArrayList<>(logs);
+        return logs;
     }
     public static void assertStep(String message){
         logger.info(message);
