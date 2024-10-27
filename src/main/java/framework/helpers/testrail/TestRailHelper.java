@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static framework.constants.GeneralConstants.INIT_PROPERTIES;
 import static framework.constants.testrail.TestRailConstants.*;
 import static framework.enums.testrail.TestRailAPICallsEnum.*;
 
@@ -19,7 +20,7 @@ public class TestRailHelper {
     public static final APIClient testRailClient = initClient();
 
     public static APIClient initClient() {
-        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper("init.properties");
+        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper(INIT_PROPERTIES);
 
         APIClient client = new APIClient(readerHelper.getProperty("testrail.url"));
         client.setUser(readerHelper.getProperty("testrail.user"));
@@ -36,10 +37,10 @@ public class TestRailHelper {
     public static AddResultForCaseResponse setCaseStatusByRunIdAndCaseId(String runId, String caseId, TestRailCaseStatusEnum statusEnum) {
 
         if (statusEnum == null) {
-            throw new IllegalArgumentException("StatusEnum cannot be null.");
+            throw new RuntimeException("StatusEnum cannot be null.");
         }
 
-        Map data = new HashMap<>();
+        Map<Object, Object> data = new HashMap<>();
         data.put(STATUS_ID, statusEnum.getStatus());
 
         String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
@@ -64,8 +65,7 @@ public class TestRailHelper {
 
     public static JSONArray getAllTestsByRunId(int runId) {
         JSONObject getTestsJson = testRailClient.sendGet(GET_TESTS.getApi() + runId);
-        JSONArray testsArrayList = getTestsJson.getJSONArray(TESTS);
-        return testsArrayList;
+        return getTestsJson.getJSONArray(TESTS);
     }
 
     public static AddResultForCaseResponse setCaseStatusAndCommentByScenarioAndMethod(int runId, String method, int scenario, TestRailCaseStatusEnum statusEnum, String comment) {
@@ -75,7 +75,7 @@ public class TestRailHelper {
             String scenarioByRun = testList.getJSONObject(i).get("custom_scenario").toString();
             if (methodByRun.compareTo(method) == 0 && scenarioByRun.compareTo(String.valueOf(scenario)) == 0) {
                 String caseId = testList.getJSONObject(i).get("case_id").toString();
-                Map data = new HashMap<>();
+                Map<Object, Object> data = new HashMap<>();
                 data.put(STATUS_ID, statusEnum.getStatus());
                 data.put(COMMENT, comment);
 

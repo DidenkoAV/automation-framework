@@ -11,6 +11,4 @@ public class WebDriverHelper  {
     public static void clickElement(WebDriver driver, String xpath){
         driver.findElement(By.xpath(xpath)).click();
     }
-
-
 }

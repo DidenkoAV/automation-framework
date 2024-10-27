@@ -7,9 +7,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+
 public class TelegramBotHelper extends TelegramLongPollingBot {
-    public static final String BOT_NAME = new PropertiesReaderHelper("init.properties").getProperty("bot.name");
-    public static final String BOT_TOKEN = new PropertiesReaderHelper("init.properties").getProperty("bot.token");
+    public static final String BOT_NAME = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("bot.name");
+    public static final String BOT_TOKEN = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("bot.token");
 
     @Override
     public String getBotUsername() {

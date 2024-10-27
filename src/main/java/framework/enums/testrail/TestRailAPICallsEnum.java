@@ -1,8 +1,6 @@
 package framework.enums.testrail;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.Arrays;
 
 public enum TestRailAPICallsEnum {
     GET_CASE("get_case/"),
@@ -11,13 +9,6 @@ public enum TestRailAPICallsEnum {
     ADD_RESULT_FOR_CASE("add_result_for_case/");
 
     private final String api;
-    private static final Map<String, TestRailAPICallsEnum> lookup = new HashMap<>();
-
-    static {
-        for (TestRailAPICallsEnum apiEnum : TestRailAPICallsEnum.values()) {
-            lookup.put(apiEnum.api, apiEnum);
-        }
-    }
 
     TestRailAPICallsEnum(String api) {
         this.api = api;
@@ -28,10 +19,9 @@ public enum TestRailAPICallsEnum {
     }
 
     public static TestRailAPICallsEnum get(String api) {
-        TestRailAPICallsEnum apiEnum = lookup.get(api);
-        if (apiEnum != null) {
-            return apiEnum;
-        }
-        throw new IllegalArgumentException("Invalid API: " + api);
+        return Arrays.stream(values())
+                .filter(apiEnum -> apiEnum.api.equals(api))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid API: " + api));
     }
 }

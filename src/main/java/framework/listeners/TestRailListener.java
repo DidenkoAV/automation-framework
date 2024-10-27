@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static framework.constants.GeneralConstants.INIT_PROPERTIES;
 import static framework.helpers.testng.DataProviderHelper.isRunningViaXml;
 
 public class TestRailListener implements ITestListener {
@@ -79,7 +80,7 @@ public class TestRailListener implements ITestListener {
     }
 
     public static boolean displaySubStep(){
-        PropertiesReaderHelper helper = new PropertiesReaderHelper("init.properties");
+        PropertiesReaderHelper helper = new PropertiesReaderHelper(INIT_PROPERTIES);
         return Boolean.parseBoolean(helper.getProperty("testrail.display.substep").trim());
     }
 

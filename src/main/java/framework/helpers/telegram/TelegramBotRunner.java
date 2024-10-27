@@ -1,20 +1,23 @@
 package framework.helpers.telegram;
 
+import framework.helpers.log.LogHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class TelegramBotRunner {
+    private static final Logger logger = LoggerFactory.getLogger(LogHelper.class);
 
     public static void main(String[] args) throws TelegramApiException {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         try {
             botsApi.registerBot(new TelegramBotHelper());
-            System.out.println("Bot is running...");
+            logger.info("Bot is running...");
         } catch (TelegramApiException e) {
-            e.printStackTrace();
-            System.err.println("Failed to register bot: " + e.getMessage());
+            logger.error("Failed to register bot: " + e.getMessage());
         }
     }
 }

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesReaderHelper {
-    private Properties properties;
+    private final Properties properties;
 
     public PropertiesReaderHelper(String propertyFileName)
     {

@@ -10,7 +10,9 @@ import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
-import static framework.constants.testrail.GeneralConstants.*;
+import static framework.constants.GeneralConstants.*;
+import static framework.constants.testrail.TestRailConstants.RUNID;
+import static framework.constants.testrail.TestRailConstants.SCENARIO;
 
 @Listeners(TestRailListener.class)
 public class InitSeleniumTest {
@@ -39,20 +41,16 @@ public class InitSeleniumTest {
     }
 
     private static String defineBaseUrl() {
-        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper("init.properties");
+        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper(INIT_PROPERTIES);
         return readerHelper.getProperty("selenium.url");
     }
 
     private static WebDriver defineDriver(String browser) {
         BrowserEnum browserEnum = BrowserEnum.get(browser);
-        switch (browserEnum) {
-            case CHROME:
-                return LoadBrowser.loadChrome();
-            case FIREFOX:
-                return LoadBrowser.loadFirefox();
-            default:
-                throw new IllegalArgumentException("Unsupported browser: " + browser);
-        }
+        return switch (browserEnum) {
+            case CHROME -> LoadBrowser.loadChrome();
+            case FIREFOX -> LoadBrowser.loadFirefox();
+        };
     }
 
     public TestConfig defineTestConfig(String browserParam, String runIdParam, String scenarioParam, TestParams testParams) {

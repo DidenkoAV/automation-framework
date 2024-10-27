@@ -8,13 +8,12 @@ public class AnnotationHelper {
 
     public static String parseBrowserFromTestParams(Method method){
         TestParams testParams = method.getAnnotation(TestParams.class);
-        String browser = testParams.browser();
-        return browser;
+        return testParams.browser();
     }
 
     public static int getScenarioFromTestParams(Method method) {
         TestParams testParams = method.getAnnotation(TestParams.class);
-        return testParams != null ? Integer.valueOf(testParams.scenario()) : -1;
+        return testParams != null ? testParams.scenario() : -1;
     }
 
     public static int getRunIdFromTestParams(Method method) {

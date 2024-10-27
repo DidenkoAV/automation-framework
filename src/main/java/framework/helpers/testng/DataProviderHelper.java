@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static framework.constants.GeneralConstants.ALL;
+import static framework.constants.GeneralConstants.CSV_DATA;
+
 public class DataProviderHelper {
-    public static final String ALL = "ALL";
 
 
-    @DataProvider(name = "csvData")
+    @DataProvider(name = CSV_DATA)
     public Object[][] csvDataProvider(Method method, ITestContext context) {
         TestParams testParams = method.getAnnotation(TestParams.class);
 

@@ -8,6 +8,9 @@ import messagepoint.helpers.LoginHelper;
 import messagepoint.tdo.umh.LoginTdo;
 import org.testng.annotations.Test;
 import java.util.HashMap;
+import java.util.Objects;
+
+import static framework.constants.GeneralConstants.CSV_DATA;
 
 
 /**
@@ -16,13 +19,13 @@ import java.util.HashMap;
 public class AuthorizationTests extends InitSeleniumTest {
 
     @TestParams(browser = "chrome", csvPath = "login.csv", runId = 1, scenario = 2)
-    @Test(dataProvider = "csvData", dataProviderClass = DataProviderHelper.class)
+    @Test(dataProvider = CSV_DATA, dataProviderClass = DataProviderHelper.class)
     public void login(HashMap<String, String> data) {
         LoginTdo loginTdo = LoginHelper.setupLoginTdo(data);
 
         LoginHelper.login(driver, loginTdo);
 
-        AssertionHelper.verifyEquals(driver.getTitle(), loginTdo.getTitle(),"Title is: " + loginTdo.getTitle());
+        AssertionHelper.verifyEquals(Objects.requireNonNull(driver.getTitle()), loginTdo.getTitle(),"Title is: " + loginTdo.getTitle());
 
     }
 }

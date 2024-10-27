@@ -37,10 +37,6 @@ public class APIClient
 		this.m_url = base_url + "index.php?/api/v2/";
 	}
 
-	/**
-	 * Get/Set User
-	 * Returns/sets the user used for authenticating the API requests.
-	 */
 	public String getUser()
 	{
 		return this.m_user;
@@ -50,11 +46,6 @@ public class APIClient
 	{
 		this.m_user = user;
 	}
-
-	/**
-	 * Get/Set Password
-	 * Returns/sets the password used for authenticating the API requests.
-	 */
 	public String getPassword()
 	{
 		return this.m_password;
@@ -65,19 +56,6 @@ public class APIClient
 		this.m_password = password;
 	}
 
-	/**
-	 * Send Get
-	 * Issues a GET request (read) against the API and returns the result
-	 * (as Object, see below).
-	 * Arguments:
-	 * uri                  The API method to call including parameters
-	 *                      (e.g. get_case/1)
-	 * Returns the parsed JSON response as standard object which can
-	 * either be an instance of JSONObject or JSONArray (depending on the
-	 * API method). In most cases, this returns a JSONObject instance which
-	 * is basically the same as java.util.Map.
-	 * If 'get_attachment/:attachment_id', returns a String
-	 */
 	public Object sendGet(String uri, String data)
 			throws IOException, TestRailAPIException, IllegalAccessException {
 		return this.sendRequest("GET", uri, data);
@@ -86,29 +64,11 @@ public class APIClient
 	public JSONObject sendGet(String uri)
 	{	try {
 		return (JSONObject) this.sendRequest("GET", uri, null);
-	} catch (IOException e){
+	} catch (IOException | IllegalAccessException e){
 		throw  new RuntimeException(e);
-	} catch (IllegalAccessException e) {
-        throw new RuntimeException(e);
-    }
+	}
     }
 
-	/**
-	 * Send POST
-	 * Issues a POST request (write) against the API and returns the result
-	 * (as Object, see below).
-	 * Arguments:
-	 * uri                  The API method to call including parameters
-	 *                      (e.g. add_case/1)
-	 * data                 The data to submit as part of the request (e.g.,
-	 *                      a map)
-	 *                      If adding an attachment, must be the path
-	 *                      to the file
-	 * Returns the parsed JSON response as standard object which can
-	 * either be an instance of JSONObject or JSONArray (depending on the
-	 * API method). In most cases, this returns a JSONObject instance which
-	 * is basically the same as java.util.Map.
-	 */
 	public JSONObject sendPost(String uri, Object data) {
 		try {
 			return (JSONObject) this.sendRequest("POST", uri, data);
@@ -129,9 +89,7 @@ public class APIClient
 		if (method.equals("POST"))
 		{
 			conn.setRequestMethod("POST");
-			// Add the POST arguments, if any. We just serialize the passed
-			// data object (i.e. a dictionary) and then add it to the
-			// request body.
+
 			if (data != null)
 			{				
 				if (uri.startsWith("add_attachment"))   // add_attachment API requests

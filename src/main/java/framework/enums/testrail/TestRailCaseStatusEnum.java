@@ -1,7 +1,6 @@
 package framework.enums.testrail;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public enum TestRailCaseStatusEnum {
     PASSED(1),
@@ -11,13 +10,6 @@ public enum TestRailCaseStatusEnum {
     FAILED(5);
 
     private final int status;
-    private static final Map<Integer, TestRailCaseStatusEnum> lookup = new HashMap<>();
-
-    static {
-        for (TestRailCaseStatusEnum statusEnum : TestRailCaseStatusEnum.values()) {
-            lookup.put(statusEnum.status, statusEnum);
-        }
-    }
 
     TestRailCaseStatusEnum(int status) {
         this.status = status;
@@ -27,11 +19,10 @@ public enum TestRailCaseStatusEnum {
         return status;
     }
 
-    public static TestRailCaseStatusEnum get(String status) {
-        TestRailCaseStatusEnum statusEnum = lookup.get(status);
-        if (statusEnum != null) {
-            return statusEnum;
-        }
-        throw new IllegalArgumentException("Invalid status: " + status);
+    public static TestRailCaseStatusEnum get(int status) {
+        return Arrays.stream(values())
+                .filter(statusEnum -> statusEnum.status == status)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid status: " + status));
     }
 }

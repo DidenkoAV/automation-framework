@@ -32,7 +32,6 @@ public class LoadBrowser {
     }
 
     private static  FirefoxOptions initFirefoxOption(){
-        FirefoxOptions options = new FirefoxOptions();
-        return options;
+        return new FirefoxOptions();
     }
 }

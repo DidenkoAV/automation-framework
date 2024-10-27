@@ -12,14 +12,6 @@ public class JsonHelper {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public static String getJsonParameterFromJsonObject(String paramName, JSONObject jsonObj) {
-        return jsonObj.optString(paramName, null);
-    }
-
-    public static JSONObject convertXMLStringToJSONObject(String xmlStr) {
-        return XML.toJSONObject(xmlStr);
-    }
-
     public static <T> T convertResponseToPojo(Class<T> clazz, String response) {
         try {
             return OBJECT_MAPPER.readValue(response, clazz);

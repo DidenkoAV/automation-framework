@@ -13,31 +13,22 @@ public class AssertionHelper {
     private static int failedAssertions;
 
     public AssertionHelper(WebDriver driver) {
-        this.driver = driver;
-        this.softAssert = new SoftAssert();
-        this.totalAssertions = 0;
-        this.failedAssertions = 0;
+        AssertionHelper.driver = driver;
+        softAssert = new SoftAssert();
+        totalAssertions = 0;
+        failedAssertions = 0;
     }
 
-    /**
-     * Soft asserts that a condition is true.
-     */
     @Step("Assert that condition is true: {message}")
     public static void verifyTrue(boolean isTrue, String message) {
         evaluateAssertion(isTrue, message, true);
     }
 
-    /**
-     * Soft asserts that a condition is false.
-     */
     @Step("Assert that condition is false: {message}")
     public static void verifyFalse(boolean isFalse, String message) {
         evaluateAssertion(!isFalse, message, false);
     }
 
-    /**
-     * Soft asserts that two objects are equal.
-     */
     @Step("Assert that {actual} equals {expected}: {message}")
     public static void verifyEquals(Object expected, Object actual, String message) {
         boolean result = expected.equals(actual);
@@ -45,9 +36,6 @@ public class AssertionHelper {
         softAssert.assertEquals(actual, expected, message);
     }
 
-    /**
-     * Soft asserts that two objects are not equal.
-     */
     @Step("Assert that {actual} does not equal {expected}: {message}")
     public static void verifyNotEquals(Object expected, Object actual, String message) {
         boolean result = !expected.equals(actual);
@@ -55,18 +43,11 @@ public class AssertionHelper {
         softAssert.assertNotEquals(actual, expected, message);
     }
 
-    /**
-     * Call it at the end of test.
-     */
     public static void assertAll() {
         softAssert.assertAll();
     }
 
-    /**
-     * Get a summary of the soft assertion results.
-     *
-     * @return A string summarizing the number of passed and failed assertions.
-     */
+
     public static void getStatistics() {
         int passedAssertions = totalAssertions - failedAssertions;
         String result =  String.format("Total Assertions: %d | Passed: %d | Failed: %d",

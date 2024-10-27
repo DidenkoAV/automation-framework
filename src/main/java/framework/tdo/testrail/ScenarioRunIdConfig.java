@@ -1,5 +1,8 @@
 package framework.tdo.testrail;
 
+import lombok.Getter;
+
+@Getter
 public class ScenarioRunIdConfig {
     private final int scenario;
     private final int runId;
@@ -9,11 +12,4 @@ public class ScenarioRunIdConfig {
         this.runId = runId;
     }
 
-    public int getScenario() {
-        return scenario;
-    }
-
-    public int getRunId() {
-        return runId;
-    }
 }
