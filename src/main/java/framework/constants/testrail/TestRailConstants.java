@@ -7,4 +7,6 @@ public class TestRailConstants {
     public static final String COMMENT = "comment";
     public static final String RUNID = "runId";
     public static final String SCENARIO = "scenario";
+    public static final String ADD_ATTACHMENT = "add_attachment";
+    public static final String GET_ATTACHMENT = "get_attachment";
 }

@@ -3,7 +3,7 @@ package framework.enums.general;
 import lombok.Getter;
 
 @Getter
-public enum HTTPCallEnum {
+public enum HttpEnum {
     GET("GET"),
     POST("POST"),
     PUT("PUT"),
@@ -11,7 +11,7 @@ public enum HTTPCallEnum {
 
     final String http;
 
-    HTTPCallEnum(String http) {
+    HttpEnum(String http) {
         this.http = http;
     }
 }

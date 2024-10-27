@@ -3,18 +3,21 @@ package framework.helpers.general;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.XML;
 
 public class JsonHelper {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+    @Getter
+    @Setter
+    public static ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public static <T> T convertResponseToPojo(Class<T> clazz, String response) {
         try {
-            return OBJECT_MAPPER.readValue(response, clazz);
+            return objectMapper.readValue(response, clazz);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error parsing response: " + response, e);
         }
@@ -22,7 +25,7 @@ public class JsonHelper {
 
     public static String convertObjectToString(Object obj) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(obj);
+            return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error converting object to JSON string", e);
         }

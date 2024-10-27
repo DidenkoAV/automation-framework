@@ -8,5 +8,7 @@ public class GeneralConstants {
     public static final String INIT_PROPERTIES  = "init.properties";
     public static final String ALL = "ALL";
     public static final String CSV_DATA = "csvData";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String ATTACHMENT = "attachment";
 
 }
