@@ -12,16 +12,20 @@ public class PropertyHelper {
         return  getProperty(property);
     }
 
-    private static Properties initPropertyFile(String propertyFileName)
-    {
-        try (InputStream is = PropertyHelper.class.getClassLoader().getResourceAsStream(propertyFileName))
-        {
+    private static Properties initPropertyFile(String propertyFileName) {
+        Properties properties = new Properties();
+        try (InputStream is = PropertyHelper.class.getClassLoader().getResourceAsStream(propertyFileName)) {
+            if (is == null) {
+                throw new RuntimeException("Property file [" + propertyFileName + "] not found in classpath");
+            }
             properties.load(is);
-        } catch (IOException e){
-            throw new RuntimeException("[" + propertyFileName + "] can't be loaded");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load properties from [" + propertyFileName + "]", e);
         }
+
         return properties;
     }
+
 
     private static String getProperty(String propertyName)
     {

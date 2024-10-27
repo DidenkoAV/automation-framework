@@ -19,13 +19,15 @@ import java.util.List;
 
 import static framework.constants.GeneralConstants.INIT_PROPERTIES;
 import static framework.constants.GeneralConstants.TESTRAIL_DISPLAY_SUBSTEP;
+import static framework.constants.testrail.TestRailConstants.RUNID;
+import static framework.constants.testrail.TestRailConstants.SCENARIO;
 import static framework.helpers.testng.DataProviderHelper.isRunningViaXml;
 
 public class TestRailListener implements ITestListener {
     @Getter
     private static final List<ITestResult> testResults = new ArrayList<>();
     @Getter
-    public static List<String> logsForTelegram = new ArrayList<>();
+    public static List<String> logsForTelegram = new ArrayList<>(); //bad approach
     public static int ALL_SCENARIOS = 1;
 
     @Override
@@ -57,10 +59,10 @@ public class TestRailListener implements ITestListener {
     private void handleTestResult(ITestResult result, TestRailCaseStatusEnum statusEnum, ITestContext context) {
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         String classAndMethodPath = getClassAndMethodPath(method);
-        ScenarioRunIdConfig scenarioRunIdConfig = defineScenarioAndRunId(context,method);
+        ScenarioRunIdConfig scenarioRunIdConfig = TestRailHelper.defineScenarioAndRunId(context,method);
         boolean displaySubStep = displaySubStep();
 
-        String logsString = collectSl4jLogs(displaySubStep);
+        String logsString = LogHelper.collectSl4jLogsForTestRail(displaySubStep);
         TestRailHelper.setCaseStatusAndCommentByScenarioAndMethod(scenarioRunIdConfig.getRunId(), classAndMethodPath, scenarioRunIdConfig.getScenario(), statusEnum, logsString);
         ALL_SCENARIOS++;
         logsForTelegram = new ArrayList<>(LogHelper.getLogs());
@@ -73,37 +75,8 @@ public class TestRailListener implements ITestListener {
         return declaringClass.getName() + "." + methodName;
     }
 
-    public static String collectSl4jLogs(boolean displaySubstep){
-        AssertionHelper.getStatistics();
-        AssertionHelper.assertAll();
-        List<String> logs = LogHelper.getLogs();
-        return LogHelper.formatSL4JLogsForTestRail(logs,displaySubstep);
-    }
-
     public static boolean displaySubStep(){
         return Boolean.parseBoolean(PropertyHelper.initAndGetProperty(INIT_PROPERTIES, TESTRAIL_DISPLAY_SUBSTEP));
-    }
-
-    public ScenarioRunIdConfig defineScenarioAndRunId(ITestContext context, Method method) {
-        int scenario;
-        int runId;
-
-        if (isRunningViaXml(context)) {
-            String scenarioParam = context.getCurrentXmlTest().getParameter("scenario");
-            String runIdParam = context.getCurrentXmlTest().getParameter("runId");
-
-            if (scenarioParam == null) {
-                scenarioParam = String.valueOf(ALL_SCENARIOS);
-            }
-
-            scenario = Integer.parseInt(scenarioParam);
-            runId = (runIdParam != null) ? Integer.parseInt(runIdParam) : -1;
-        } else {
-            scenario = AnnotationHelper.getScenarioFromTestParams(method);
-            runId = AnnotationHelper.getRunIdFromTestParams(method);
-        }
-
-        return new ScenarioRunIdConfig(scenario, runId);
     }
 
 }

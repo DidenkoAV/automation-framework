@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static framework.constants.GeneralConstants.ALL;
-import static framework.constants.GeneralConstants.CSV_DATA;
+import static framework.constants.GeneralConstants.*;
 
 public class DataProviderHelper {
 
@@ -40,7 +39,7 @@ public class DataProviderHelper {
     }
 
     public static boolean isRunningViaXml(ITestContext context) {
-        return context.getCurrentXmlTest().getParameter("runmode") != null;
+        return context.getCurrentXmlTest().getParameter(RUN_MODE) != null;
     }
 
     public static Object[][] parseCsvToMap(String relativeFilePath, Class<?> clazz, String scenario) {
@@ -48,9 +47,9 @@ public class DataProviderHelper {
         String line;
 
         String packagePath = clazz.getPackage().getName().replace('.', '/');
-        String fullPath = packagePath + "/data/" + relativeFilePath;
+        String fullPath = packagePath + DATA_PATH + relativeFilePath;
 
-        String filePath = System.getProperty("user.dir") + "/src/test/java/" + fullPath;
+        String filePath = System.getProperty(USER_DIR) + SRC_TEST_JAVA + fullPath;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String headerLine = br.readLine();

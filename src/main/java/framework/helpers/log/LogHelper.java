@@ -1,6 +1,7 @@
 package framework.helpers.log;
 
 import framework.helpers.general.PropertyHelper;
+import framework.helpers.testng.AssertionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,5 +70,12 @@ public class LogHelper {
 
         formattedLogs.append("</div>");
         return formattedLogs.toString();
+    }
+
+    public static String collectSl4jLogsForTestRail(boolean displaySubstep){
+        AssertionHelper.getStatistics();
+        AssertionHelper.assertAll();
+        List<String> logs = LogHelper.getLogs();
+        return LogHelper.formatSL4JLogsForTestRail(logs,displaySubstep);
     }
 }
