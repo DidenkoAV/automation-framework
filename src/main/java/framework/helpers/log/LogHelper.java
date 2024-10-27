@@ -1,13 +1,13 @@
 package framework.helpers.log;
 
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+import static framework.constants.GeneralConstants.*;
 
 public class LogHelper {
     private static final Logger logger = LoggerFactory.getLogger(LogHelper.class);
@@ -46,8 +46,9 @@ public class LogHelper {
     }
 
     public static String formatSL4JLogsForTestRail(List<String> logs, boolean showSubsteps) {
-        String color = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("testrail.logs.color");
-        String assertColor = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("testrail.logs.assert.color");
+        String color = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_LOGS_COLOR);
+        String assertColor = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_LOGS_ASSERT_COLOR);
+
         int stepsCount = 1;
         StringBuilder formattedLogs = new StringBuilder("<div style='font-family: Arial, sans-serif; color: #333;'>");
 

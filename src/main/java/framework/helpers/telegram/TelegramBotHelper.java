@@ -1,17 +1,17 @@
 package framework.helpers.telegram;
 
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import framework.helpers.testng.TestNgRunner;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+import static framework.constants.GeneralConstants.*;
 
 public class TelegramBotHelper extends TelegramLongPollingBot {
-    public static final String BOT_NAME = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("bot.name");
-    public static final String BOT_TOKEN = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("bot.token");
+    public static final String BOT_NAME = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TELEGRAM_BOT_NAME);
+    public static final String BOT_TOKEN = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TELEGRAM_BOT_TOKEN);
 
     @Override
     public String getBotUsername() {

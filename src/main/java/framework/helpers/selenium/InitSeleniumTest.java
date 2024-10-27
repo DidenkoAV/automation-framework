@@ -2,7 +2,7 @@ package framework.helpers.selenium;
 
 import framework.annotations.TestParams;
 import framework.enums.selenium.BrowserEnum;
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import framework.listeners.TestRailListener;
 import framework.tdo.testrail.TestConfig;
 import org.openqa.selenium.WebDriver;
@@ -41,8 +41,7 @@ public class InitSeleniumTest {
     }
 
     private static String defineBaseUrl() {
-        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper(INIT_PROPERTIES);
-        return readerHelper.getProperty("selenium.url");
+        return PropertyHelper.initAndGetProperty(INIT_PROPERTIES,SELENIUM_BASE_URL);
     }
 
     private static WebDriver defineDriver(String browser) {

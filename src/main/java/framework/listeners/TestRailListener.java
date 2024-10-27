@@ -3,7 +3,7 @@ package framework.listeners;
 import framework.enums.testrail.TestRailCaseStatusEnum;
 import framework.helpers.allure.AllureHelper;
 import framework.helpers.general.AnnotationHelper;
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import framework.helpers.log.LogHelper;
 import framework.helpers.testng.AssertionHelper;
 import framework.helpers.testrail.TestRailHelper;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+import static framework.constants.GeneralConstants.TESTRAIL_DISPLAY_SUBSTEP;
 import static framework.helpers.testng.DataProviderHelper.isRunningViaXml;
 
 public class TestRailListener implements ITestListener {
@@ -80,8 +81,7 @@ public class TestRailListener implements ITestListener {
     }
 
     public static boolean displaySubStep(){
-        PropertiesReaderHelper helper = new PropertiesReaderHelper(INIT_PROPERTIES);
-        return Boolean.parseBoolean(helper.getProperty("testrail.display.substep").trim());
+        return Boolean.parseBoolean(PropertyHelper.initAndGetProperty(INIT_PROPERTIES, TESTRAIL_DISPLAY_SUBSTEP));
     }
 
     public ScenarioRunIdConfig defineScenarioAndRunId(ITestContext context, Method method) {

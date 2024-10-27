@@ -2,7 +2,7 @@ package framework.helpers.testrail;
 
 import framework.enums.testrail.TestRailCaseStatusEnum;
 import framework.helpers.general.JsonHelper;
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import framework.integrations.testrail.TestRailClient;
 import framework.tdo.testrail.AddResultForCaseResponse;
 import framework.tdo.testrail.CaseDetailsResponse;
@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+import static framework.constants.GeneralConstants.*;
 import static framework.constants.testrail.TestRailConstants.*;
 import static framework.enums.testrail.TestRailAPICallsEnum.*;
 
@@ -20,9 +20,8 @@ public class TestRailHelper {
     public static final TestRailClient testRailClient = initClient();
 
     public static TestRailClient initClient() {
-        PropertiesReaderHelper readerHelper = new PropertiesReaderHelper(INIT_PROPERTIES);
-        String user = readerHelper.getProperty("testrail.user");
-        String password = readerHelper.getProperty("testrail.password");
+        String user = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_USER);
+        String password = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_PASSWORD);
         return new TestRailClient(user,password);
     }
 

@@ -3,12 +3,13 @@ package framework.integrations.testrail;
 import framework.enums.general.HttpEnum;
 import framework.helpers.general.JsonHelper;
 import framework.helpers.general.OkHttpHelper;
-import framework.helpers.general.PropertiesReaderHelper;
+import framework.helpers.general.PropertyHelper;
 import lombok.Setter;
 import okhttp3.*;
 import org.json.JSONObject;
 
 import static framework.constants.GeneralConstants.INIT_PROPERTIES;
+import static framework.constants.GeneralConstants.TESTRAIL_BASE_URL;
 import static framework.constants.testrail.TestRailConstants.ADD_ATTACHMENT;
 import static framework.enums.general.HttpEnum.*;
 
@@ -31,7 +32,7 @@ public class TestRailClient {
 	}
 
 	private JSONObject sendRequest(HttpEnum method, String url, Object data) {
-		String baseUrl = new PropertiesReaderHelper(INIT_PROPERTIES).getProperty("testrail.url");
+		String baseUrl = PropertyHelper.initAndGetProperty(INIT_PROPERTIES, TESTRAIL_BASE_URL);
 		Request.Builder requestBuilder = OkHttpHelper.prepareRequestBuilder(user, password, baseUrl + url);
 
 		switch (method) {
