@@ -1,6 +1,7 @@
-package framework.helpers.telegram;
+package framework.runners;
 
 import framework.helpers.log.LogHelper;
+import framework.helpers.telegram.TelegramBotHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.TelegramBotsApi;

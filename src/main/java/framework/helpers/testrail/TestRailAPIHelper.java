@@ -1,4 +1,4 @@
-package framework.integrations.testrail;
+package framework.helpers.testrail;
 
 import framework.enums.general.HttpEnum;
 import framework.helpers.general.JsonHelper;
@@ -14,11 +14,11 @@ import static framework.constants.testrail.TestRailConstants.ADD_ATTACHMENT;
 import static framework.enums.general.HttpEnum.*;
 
 @Setter
-public class TestRailClient {
+public class TestRailAPIHelper {
 	private String user;
 	private String password;
 
-	public TestRailClient(String user, String password) {
+	public TestRailAPIHelper(String user, String password) {
 		this.user=user;
 		this.password=password;
 	}

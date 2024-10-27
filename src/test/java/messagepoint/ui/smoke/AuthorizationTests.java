@@ -1,7 +1,7 @@
 package messagepoint.ui.smoke;
 
 import framework.annotations.TestParams;
-import framework.helpers.selenium.InitSeleniumTest;
+import framework.runners.SeleniumRunner;
 import framework.helpers.testng.AssertionHelper;
 import framework.helpers.testng.DataProviderHelper;
 import messagepoint.helpers.LoginHelper;
@@ -16,7 +16,7 @@ import static framework.constants.GeneralConstants.CSV_DATA;
 /**
  * Authorization tests
  */
-public class AuthorizationTests extends InitSeleniumTest {
+public class AuthorizationTests extends SeleniumRunner {
 
     @TestParams(browser = "chrome", csvPath = "login.csv", runId = 1, scenario = 2)
     @Test(dataProvider = CSV_DATA, dataProviderClass = DataProviderHelper.class)

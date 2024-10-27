@@ -1,7 +1,7 @@
 package framework.helpers.telegram;
 
 import framework.helpers.general.PropertyHelper;
-import framework.helpers.testng.TestNgRunner;
+import framework.runners.TestNgRunner;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;

@@ -4,7 +4,6 @@ import framework.enums.testrail.TestRailCaseStatusEnum;
 import framework.helpers.general.AnnotationHelper;
 import framework.helpers.general.JsonHelper;
 import framework.helpers.general.PropertyHelper;
-import framework.integrations.testrail.TestRailClient;
 import framework.tdo.testrail.AddResultForCaseResponse;
 import framework.tdo.testrail.CaseDetailsResponse;
 import framework.tdo.testrail.ScenarioRunIdConfig;
@@ -23,17 +22,17 @@ import static framework.helpers.testng.DataProviderHelper.isRunningViaXml;
 import static framework.listeners.TestRailListener.ALL_SCENARIOS;
 
 public class TestRailHelper {
-    public static final TestRailClient testRailClient = initClient();
+    public static final TestRailAPIHelper TEST_RAIL_API_HELPER = initClient();
 
-    public static TestRailClient initClient() {
+    public static TestRailAPIHelper initClient() {
         String user = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_USER);
         String password = PropertyHelper.initAndGetProperty(INIT_PROPERTIES,TESTRAIL_PASSWORD);
-        return new TestRailClient(user,password);
+        return new TestRailAPIHelper(user,password);
     }
 
 
     public static CaseDetailsResponse getCaseDetailsById(String caseId) {
-        JSONObject jsonObject = testRailClient.sendGet(GET_CASE.getApi() + caseId);
+        JSONObject jsonObject = TEST_RAIL_API_HELPER.sendGet(GET_CASE.getApi() + caseId);
         return JsonHelper.convertResponseToPojo(CaseDetailsResponse.class, jsonObject.toString());
     }
 
@@ -47,7 +46,7 @@ public class TestRailHelper {
         data.put(STATUS_ID, statusEnum.getStatus());
 
         String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
-        JSONObject jsonObject = testRailClient.sendPost(apiUrl, data);
+        JSONObject jsonObject = TEST_RAIL_API_HELPER.sendPost(apiUrl, data);
         return JsonHelper.convertResponseToPojo(AddResultForCaseResponse.class, jsonObject.toString());
     }
 
@@ -62,12 +61,12 @@ public class TestRailHelper {
         data.put(COMMENT, comment);
 
         String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
-        JSONObject jsonObject = testRailClient.sendPost(apiUrl, data);
+        JSONObject jsonObject = TEST_RAIL_API_HELPER.sendPost(apiUrl, data);
         return JsonHelper.convertResponseToPojo(AddResultForCaseResponse.class, jsonObject.toString());
     }
 
     public static JSONArray getAllTestsByRunId(int runId) {
-        JSONObject getTestsJson = testRailClient.sendGet(GET_TESTS.getApi() + runId);
+        JSONObject getTestsJson = TEST_RAIL_API_HELPER.sendGet(GET_TESTS.getApi() + runId);
         return getTestsJson.getJSONArray(TESTS);
     }
 
@@ -83,7 +82,7 @@ public class TestRailHelper {
                 data.put(COMMENT, comment);
 
                 String apiUrl = ADD_RESULT_FOR_CASE.getApi() + runId + "/" + caseId;
-                JSONObject jsonObject = testRailClient.sendPost(apiUrl, data);
+                JSONObject jsonObject = TEST_RAIL_API_HELPER.sendPost(apiUrl, data);
                 return JsonHelper.convertResponseToPojo(AddResultForCaseResponse.class, jsonObject.toString());
             }
         }

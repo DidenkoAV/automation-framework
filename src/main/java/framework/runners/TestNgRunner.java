@@ -1,4 +1,4 @@
-package framework.helpers.testng;
+package framework.runners;
 
 import framework.listeners.TestRailListener;
 import org.testng.ITestResult;

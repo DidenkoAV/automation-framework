@@ -1,8 +1,9 @@
-package framework.helpers.selenium;
+package framework.runners;
 
 import framework.annotations.TestParams;
 import framework.enums.selenium.BrowserEnum;
 import framework.helpers.general.PropertyHelper;
+import framework.helpers.selenium.LoadBrowser;
 import framework.listeners.TestRailListener;
 import framework.tdo.testrail.TestConfig;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +16,7 @@ import static framework.constants.testrail.TestRailConstants.RUNID;
 import static framework.constants.testrail.TestRailConstants.SCENARIO;
 
 @Listeners(TestRailListener.class)
-public class InitSeleniumTest {
+public class SeleniumRunner {
     protected WebDriver driver;
 
     @BeforeMethod
