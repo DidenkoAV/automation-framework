@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface TestParams {
-    String browser();
-    String csvPath();
-    int scenario();
-    int runId();
+    String browser() default "chrome";
+    String csvPath() default "undefined";
+    int scenario() default 0;
+    int runId() default 0;
 }

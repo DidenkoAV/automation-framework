@@ -1,6 +1,7 @@
 package framework.helpers.testng;
 
 import framework.annotations.TestParams;
+import framework.helpers.log.LogHelper;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 
@@ -19,23 +20,23 @@ public class DataProviderHelper {
 
     @DataProvider(name = CSV_DATA)
     public Object[][] csvDataProvider(Method method, ITestContext context) {
-        TestParams testParams = method.getAnnotation(TestParams.class);
+            TestParams testParams = method.getAnnotation(TestParams.class);
 
-        boolean runningViaXml = isRunningViaXml(context);
+            boolean runningViaXml = isRunningViaXml(context);
 
-        String csvPath = testParams.csvPath();
-        String scenario;
+            String csvPath = testParams.csvPath();
+            String scenario;
 
-        if (runningViaXml) {
-            scenario = context.getCurrentXmlTest().getParameter("scenario");
-            if(scenario==null){
-              scenario = ALL;
+            if (runningViaXml) {
+                scenario = context.getCurrentXmlTest().getParameter("scenario");
+                if (scenario == null) {
+                    scenario = ALL;
+                }
+            } else {
+                scenario = String.valueOf(testParams.scenario());
             }
-        } else {
-            scenario = String.valueOf(testParams.scenario());
-        }
 
-        return parseCsvToMap(csvPath, method.getDeclaringClass(), scenario);
+            return parseCsvToMap(csvPath, method.getDeclaringClass(), scenario);
     }
 
     public static boolean isRunningViaXml(ITestContext context) {

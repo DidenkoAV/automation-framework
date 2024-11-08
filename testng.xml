@@ -5,8 +5,10 @@
         <parameter name="runmode" value="xml"></parameter>
         <parameter name="browser" value="chrome"/>
         <parameter name="runId" value="1"/>
-        <packages>
-            <package name="messagepoint.ui.smoke.*"></package>
-        </packages>
+        <parameter name="invocationCount" value="1"></parameter>
+        <parameter name="threadPoolSize" value="1"></parameter>
+        <classes>
+            <class name="messagepoint.load.LoginLoadTest"></class>
+        </classes>
     </test>
 </suite>

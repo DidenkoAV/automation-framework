@@ -23,6 +23,10 @@ public class LogHelper {
         logs.add(STEP + message);
     }
 
+    public static void warn(String message){
+        logger.debug(message);
+    }
+
     public static void substep(String message) {
         logger.info(message);
         logs.add(SUBSTEP + message);

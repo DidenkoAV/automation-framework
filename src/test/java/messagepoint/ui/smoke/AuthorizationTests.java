@@ -22,10 +22,7 @@ public class AuthorizationTests extends SeleniumRunner {
     @Test(dataProvider = CSV_DATA, dataProviderClass = DataProviderHelper.class)
     public void login(HashMap<String, String> data) {
         LoginTdo loginTdo = LoginHelper.setupLoginTdo(data);
-
         LoginHelper.login(driver, loginTdo);
-
         AssertionHelper.verifyEquals(Objects.requireNonNull(driver.getTitle()), loginTdo.getTitle(),"Title is: " + loginTdo.getTitle());
-
     }
 }

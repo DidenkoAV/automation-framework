@@ -2,90 +2,36 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-10-26T00:02:08 EDT" name="Smoke test Suite" finished-at="2024-10-26T00:02:14 EDT" duration-ms="5841">
+  <suite started-at="2024-11-07T21:43:39 EST" name="Smoke test Suite" finished-at="2024-11-07T21:43:48 EST" duration-ms="9393">
     <groups>
     </groups>
-    <test started-at="2024-10-26T00:02:08 EDT" name="Regression" finished-at="2024-10-26T00:02:14 EDT" duration-ms="5841">
-      <class name="messagepoint.ui.smoke.AuthorizationTests">
-        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:08 EDT" name="setup" finished-at="2024-10-26T00:02:10 EDT" duration-ms="1331" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void messagepoint.ui.smoke.AuthorizationTests.login(java.util.HashMap)]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[chrome]]>
-              </value>
-            </param>
-            <param index="2">
-              <value>
-                <![CDATA[1]]>
-              </value>
-            </param>
-            <param index="3">
-              <value>
-                <![CDATA[undefined]]>
-              </value>
-            </param>
-          </params>
+    <test started-at="2024-11-07T21:43:39 EST" name="Regression" finished-at="2024-11-07T21:43:48 EST" duration-ms="9393">
+      <class name="messagepoint.load.LoginLoadTest">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:39 EST" name="setUp" finished-at="2024-11-07T21:43:45 EST" duration-ms="6221" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- setup -->
-        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:10 EDT" name="login" data-provider="csvData" finished-at="2024-10-26T00:02:12 EDT" duration-ms="2092" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[{password=Prinova1, messagepoint=automation#prinova, title=Messagepoint - Touchpoints, scenario=1, user=automation}]]>
-              </value>
-            </param>
-          </params>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="setUp()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:39 EST" name="setUp" finished-at="2024-11-07T21:43:45 EST" duration-ms="6221" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- login -->
-        <test-method is-config="true" signature="setup(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:12 EDT" name="setup" finished-at="2024-10-26T00:02:13 EDT" duration-ms="1148" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void messagepoint.ui.smoke.AuthorizationTests.login(java.util.HashMap)]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[chrome]]>
-              </value>
-            </param>
-            <param index="2">
-              <value>
-                <![CDATA[1]]>
-              </value>
-            </param>
-            <param index="3">
-              <value>
-                <![CDATA[undefined]]>
-              </value>
-            </param>
-          </params>
+        </test-method> <!-- setUp -->
+        <test-method signature="loadLogin()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:45 EST" name="loadLogin" finished-at="2024-11-07T21:43:48 EST" duration-ms="3003" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- setup -->
-        <test-method signature="login(java.util.HashMap)[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:13 EDT" name="login" data-provider="csvData" finished-at="2024-10-26T00:02:14 EDT" duration-ms="528" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[{password=Prinova, messagepoint=automation#prinova, title=Messagepoint - Secure Sign In, scenario=2, user=automation}]]>
-              </value>
-            </param>
-          </params>
+        </test-method> <!-- loadLogin -->
+        <test-method signature="loadLogin()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:45 EST" name="loadLogin" finished-at="2024-11-07T21:43:48 EST" duration-ms="2855" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- login -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:messagepoint.ui.smoke.AuthorizationTests@35a13d44]" started-at="2024-10-26T00:02:14 EDT" name="tearDown" finished-at="2024-10-26T00:02:14 EDT" duration-ms="86" status="PASS">
+        </test-method> <!-- loadLogin -->
+        <test-method is-config="true" signature="closeDriver()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:48 EST" name="closeDriver" finished-at="2024-11-07T21:43:48 EST" duration-ms="124" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- tearDown -->
-      </class> <!-- messagepoint.ui.smoke.AuthorizationTests -->
+        </test-method> <!-- closeDriver -->
+        <test-method is-config="true" signature="closeDriver()[pri:0, instance:messagepoint.load.LoginLoadTest@327bcebd]" started-at="2024-11-07T21:43:48 EST" name="closeDriver" finished-at="2024-11-07T21:43:48 EST" duration-ms="113" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeDriver -->
+      </class> <!-- messagepoint.load.LoginLoadTest -->
     </test> <!-- Regression -->
   </suite> <!-- Smoke test Suite -->
 </testng-results>

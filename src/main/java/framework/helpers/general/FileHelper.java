@@ -14,7 +14,7 @@ public class FileHelper {
 
     public static void deleteDirectory(File directory) {
         if (directory == null || !directory.exists() || !directory.isDirectory()) {
-            logger.error("Provided directory is null, does not exist, or is not a directory.");
+            logger.info("Provided directory is null, does not exist, or is not a directory.");
             return;
         }
 
